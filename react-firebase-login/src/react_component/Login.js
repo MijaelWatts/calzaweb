@@ -113,7 +113,7 @@ class Login extends Component {
       user             : null,
       pass             : null,    
       disabled         : true,
-      messageToDisplay : null,
+      messageToDisplay : null
     };
 
     this.killEverything        = this.killEverything.bind(this);

@@ -2,26 +2,70 @@ import React, {Component} from 'react';
 import * as firebase from 'firebase';
 import MESSAGE_CONSTANTS from '../config_files/message_constants.json';
 
+/**
+ * Based on the props that is true, a message will be displayed, or not.
+ */
+function DisplayErrorOrSuccessMessage(props) {
+
+  if(props.messageToDisplay === 'errorMessage') {
+    return <ShowErrorMessage animationToSet={ props.animationToSet } />
+  }
+  else if(props.messageToDisplay === 'successMessage') {
+    return <ShowSuccessMessage animationToSet={ props.animationToSet } />
+  }
+  else {
+    return(<div></div>);
+  }
+}
+
+/**
+ * Error message for when the user couldn't be stored in the DB
+ */
+function ShowErrorMessage(props) {
+  const animation = "alert alert-danger App-textalign-center animated "+props.animationToSet;
+
+  return(
+    <div className={ animation }>
+      <strong>Error!</strong> Usuario ya existe, o password muy debil.
+    </div>
+  );
+}
+
+/**
+ * Success message for when the user was able to be stored in the DB
+ */
+function ShowSuccessMessage(props) {
+  const animation = "alert alert-success App-textalign-center animated "+props.animationToSet;
+
+  return(
+    <div className={ animation }>
+      <strong>Exito!</strong> Usuario agregado correctamente.
+    </div>
+  );
+}
+
 class Modal extends Component {
 	constructor(props) {
 		super(props);
-		let currentUser = firebase.auth().currentUser;
-		console.log("Modal currentUser: ", currentUser);
 
 		this.state = ({
-			userId   : props.userId,
-			user     : null,
-			inCharge : null,
-			city     : null,
-			state    : null,
-			password : null,
-      disabled : true
+			user             : null,
+			inCharge         : null,
+			city             : null,
+			state            : null,
+			password         : null,
+      disabled1        : true,
+      disabled2        : true,
+      messageToDisplay : null,
+      animationToSet   : null
 		});
 
-		this.validateEmail      = this.validateEmail.bind(this);
-    this.enableDisableButon = this.enableDisableButon.bind(this);
-    this.validateInput      = this.validateInput.bind(this);
-    this.addUser            = this.addUser.bind(this);
+		this.validateEmail       = this.validateEmail.bind(this);
+    this.enableDisableButon1 = this.enableDisableButon1.bind(this);
+    this.enableDisableButon2 = this.enableDisableButon2.bind(this);
+    this.validateInput       = this.validateInput.bind(this);
+    this.addUser             = this.addUser.bind(this);
+    this.setMessageToDisplay = this.setMessageToDisplay.bind(this);
 	}
 
 	/**
@@ -40,7 +84,9 @@ class Modal extends Component {
       user : usuario
     });
 
-  	this.enableDisableButon();
+    this.enableDisableButon1();
+  	this.enableDisableButon2();
+    this.setAnimationToSet('fadeOut');
   }
 
   /**
@@ -76,14 +122,31 @@ class Modal extends Component {
 			break;
 		}
 
-    this.enableDisableButon();
+    this.enableDisableButon1();
+    this.enableDisableButon2();
+    this.setAnimationToSet('fadeOut');
+  }
+
+  /**
+   * If any field has text this can be activated
+   */
+  enableDisableButon1() {
+    let isDisabled = true;
+
+    if(this.state.user || this.state.inCharge || this.state.city || this.state.state || this.state.password) {
+      isDisabled = false;
+    }
+    
+    this.setState({
+      disabled1: isDisabled
+    });
   }
 
   /**
    * If all the fields don't meet the requirements:
    *    The "Agregar" button won't be enabled
    */
-  enableDisableButon() {
+  enableDisableButon2() {
     let isDisabled = true;
 
     if(this.state.user && this.state.inCharge && this.state.city && this.state.state && this.state.password) {
@@ -91,7 +154,7 @@ class Modal extends Component {
     }
     
     this.setState({
-      disabled: isDisabled
+      disabled2: isDisabled
     });
   }
 
@@ -99,45 +162,66 @@ class Modal extends Component {
    * Gets the inputs given from the user and persist them in the DB
    */
   addUser() {
-    console.log(this.state.userId + " && " + this.state.user + " && " + this.state.inCharge + " && " + this.state.city + " && " + this.state.state + " && " + this.state.password);
+    const email    = this.state.user;
+    const city     = this.state.city;
+    const name     = this.state.inCharge;
+    const state    = this.state.state;
+    const password = this.state.password;
 
-  	if(this.state.userId && this.state.user && this.state.inCharge && this.state.city && this.state.state && this.state.password) {
+    this.setMessageToDisplay(null);
+
+  	if(email && name && city && state && password) {
+      this.setAnimationToSet('fadeIn');
   	
-      firebase.auth().createUserWithEmailAndPassword(this.state.user, this.state.password).catch(function(error) {
-        // TODO: If error display an error within the modal
-        var errorCode = error.code;
-        var errorMessage = error.message;
-
-        if (errorCode === 'auth/weak-password') {
-          alert('Password demasiado debil.');
-        } else {
-          alert(errorMessage);
-        }
+      firebase.auth().createUserWithEmailAndPassword(email, password).catch((error) => {
+        this.setMessageToDisplay('errorMessage');
       });
 
-      setTimeout(function() {
-      	let currentUser = firebase.auth().currentUser;
-				console.log("Modal currentUser2: ", currentUser.uid);
+      setTimeout(() => {
+        if(this.state.messageToDisplay === null) {
+          const currentUser = firebase.auth().currentUser.uid;
 
-				firebase.database().ref('bridge/' + currentUser.uid).set({
-			    redirect_to    : MESSAGE_CONSTANTS.REDIRECT01
-			  });
+          firebase.database().ref('bridge/' + currentUser).set({
+            redirect_to    : MESSAGE_CONSTANTS.REDIRECT01
+          });
 
-				firebase.database().ref('users/' + currentUser.uid).set({
-			    redirect_to    : MESSAGE_CONSTANTS.REDIRECT02
-			  });
+          firebase.database().ref('users/' + currentUser).set({
+            redirect_to    : MESSAGE_CONSTANTS.REDIRECT02
+          });
 
-				// TODO: persist the data in the DB
-	      firebase.database().ref('users-data/' + currentUser.uid).set({
-			    email    : '',
-			    accessed : '',
-			    city     : '',
-			    name     : '',
-			    state    : ''
-			  });
-      }, 3000);
+          firebase.database().ref('users-data/' + currentUser).set({
+            email    : email,
+            city     : city,
+            name     : name,
+            state    : state
+          });
 
+          this.setMessageToDisplay('successMessage');
+        }
+      }, 1500);
     }
+  }
+
+  /**
+   * Helps to show the messages in the UI.
+   * @param message - null           : displays no message.
+   * @param message - errorMessage   : displays an err message.
+   * @param message - successMessage : displays a success message.
+   */
+  setMessageToDisplay(message) {
+    this.setState({
+      messageToDisplay : message
+    });
+  }
+
+  /**
+   * Helps for the animation of the Success or Error message.
+   * @param animation - fadeIn or fadeOut
+   */
+  setAnimationToSet(animation) {
+    this.setState({
+      animationToSet : animation
+    });
   }
 
 	render() {
@@ -176,11 +260,24 @@ class Modal extends Component {
               </table>
 
             </div>
-            <div className="modal-footer">
-              <button type="button" className="btn btn-info" data-dismiss="modal" disabled={this.state.disabled} onClick={ this.addUser }>
-              	<span className="glyphicon glyphicon-plus" />&nbsp;
-              	Agregar
-              </button>
+            <div className="modal-footer App-height-p5em">
+              <div className="row col-lg-12 App-marginbottom-m3 App-margintop-m1">
+                <div className="col-lg-3 App-margintop-p1">
+                  <button type="button" className="btn btn-info App-marginright-p37" disabled={ this.state.disabled1 } >
+                    <span className="glyphicon glyphicon-tint" />&nbsp;
+                    Limpiar
+                  </button>
+                </div>
+                <div className="col-lg-6">
+                  <DisplayErrorOrSuccessMessage messageToDisplay={ this.state.messageToDisplay } animationToSet={ this.state.animationToSet } />
+                </div>
+                <div className="col-lg-3 App-margintop-p1">
+                  <button type="button" className="btn btn-info" disabled={ this.state.disabled2 } onClick={ this.addUser }>
+                    <span className="glyphicon glyphicon-plus" />&nbsp;
+                    Agregar
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
 

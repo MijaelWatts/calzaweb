@@ -30,8 +30,24 @@
   background-color: rgb(76,175,154) !important;
 }
 
+.App-marginbottom-m3 {
+  margin-bottom: -3% !important;
+}
+
 .App-margintop-m7 {
   margin-top: -7% !important;
+}
+
+.App-margintop-m1 {
+  margin-top: -1% !important;
+}
+
+.App-margintop-p1 {
+  margin-top: 1% !important;
+}
+
+.App-margintop-p5 {
+  margin-top: 5% !important;
 }
 
 .App-margintop-p5 {
@@ -40,6 +56,14 @@
 
 .App-marginright-0 {
   margin-right: 0% !important;
+}
+
+.App-marginright-p37 {
+  margin-right: 37% !important;
+}
+
+.App-height-p5em {
+  height: 5em
 }
 
 .App-color-black {
