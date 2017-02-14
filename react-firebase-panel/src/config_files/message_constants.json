@@ -1,0 +1,18 @@
+{
+  "REGISTER"         : "Registro",
+  "CLOSE_SESSION"    : "Cerrar Sesión",
+  "ADD_USER"	       : "Agregar Usuario",
+  "TH_COL1"          : "#",
+  "TH_COL2" 		     : "Usuario",
+  "TH_COL3" 		     : "Encargado",
+  "TH_COL4" 		     : "Ciudad",
+  "TH_COL5" 		     : "Estado",
+  "TH_COL6" 		     : "Fecha de Acceso",
+  "TH_COL7"          : "Editar",
+  "TH_COL8"          : "Password",
+  "USERS_REGISTERED" : "Usuarios Registrados.",
+  "EDIT"             : "Editar",
+  "DELETE"           : "Borrar",
+  "REDIRECT01"       : "http://localhost:3001",
+  "REDIRECT02"       : "https://developer.mozilla.org/en-US/docs/Tools/Storage_Inspector"
+}

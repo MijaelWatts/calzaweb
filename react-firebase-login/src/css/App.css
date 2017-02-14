@@ -1,0 +1,74 @@
+.App {
+  text-align: center;
+}
+
+.App-height {
+  height: 80px;
+}
+
+.App-animation {
+  animation: App-logo-spin infinite 20s linear;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Personla styles */
+.App-marginright-m4 {
+  margin-right: -4%;
+}
+
+.App-margintop-m1 {
+  margin-top: -1%;
+}
+
+.App-margintop-p0_5 {
+  margin-top: 0.5%;
+}
+
+.App-margintop-p1 {
+  margin-top: 1%;
+}
+
+.App-margintop-p2 {
+  margin-top: 2%;
+}
+
+.App-margintop-m8 {
+  margin-top: -8% !important;
+}
+
+.App-login-inputs {
+  border-radius: 0%;
+  border-color: black;
+}
+
+.App-textalign-initial {
+  text-align: initial;
+}
+
+.App-textalign-center {
+  text-align: center;
+}
+
+.App-textalign-end {
+  text-align: end;
+}
+
+.App-backgroundcolor-green {
+  background-color: rgb(76,175,154) !important;
+}
+
