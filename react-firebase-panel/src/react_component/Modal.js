@@ -254,7 +254,7 @@ class Modal extends Component {
 
           <div className="modal-content">
             <div className="modal-header navbar navbar-default App-backgroundcolor-green">
-              <button type="button" className="close" data-dismiss="modal">&times;</button>
+              <button type="button" className="close" data-dismiss="modal" onClick={ this.clearInputBoxes } >&times;</button>
               <h4 className="modal-title">
               	<span className="glyphicon glyphicon-user" /> &nbsp;
               	{ MESSAGE_CONSTANTS.ADD_USER }
