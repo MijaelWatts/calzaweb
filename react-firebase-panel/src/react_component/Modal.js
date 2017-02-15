@@ -14,7 +14,7 @@ function DisplayErrorOrSuccessMessage(props) {
     return <ShowSuccessMessage animationToSet={ props.animationToSet } />
   }
   else {
-    return(<div></div>);
+    return(null);
   }
 }
 
@@ -65,6 +65,7 @@ class Modal extends Component {
     this.enableDisableButon2 = this.enableDisableButon2.bind(this);
     this.validateInput       = this.validateInput.bind(this);
     this.addUser             = this.addUser.bind(this);
+    this.clearInputBoxes     = this.clearInputBoxes.bind(this);
     this.setMessageToDisplay = this.setMessageToDisplay.bind(this);
 	}
 
@@ -202,6 +203,11 @@ class Modal extends Component {
     }
   }
 
+  clearInputBoxes() {
+    var form = document.getElementById("myForm");
+    form.reset();
+  }
+
   /**
    * Helps to show the messages in the UI.
    * @param message - null           : displays no message.
@@ -238,6 +244,7 @@ class Modal extends Component {
             </div>
             <div className="modal-body">
 
+            <form id="myForm">
               <table className="table">
                 <thead>
                   <tr>
@@ -258,12 +265,13 @@ class Modal extends Component {
                   </tr>
                 </tbody>
               </table>
+            </form>
 
             </div>
             <div className="modal-footer App-height-p5em">
               <div className="row col-lg-12 App-marginbottom-m3 App-margintop-m1">
                 <div className="col-lg-3 App-margintop-p1">
-                  <button type="button" className="btn btn-info App-marginright-p37" disabled={ this.state.disabled1 } >
+                  <button type="button" className="btn btn-info App-marginright-p37" disabled={ this.state.disabled1 } onClick={ this.clearInputBoxes } >
                     <span className="glyphicon glyphicon-tint" />&nbsp;
                     Limpiar
                   </button>
