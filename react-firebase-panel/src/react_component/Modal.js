@@ -62,6 +62,7 @@ class Modal extends Component {
 
 		this.validateEmail       = this.validateEmail.bind(this);
     this.enableDisableButon1 = this.enableDisableButon1.bind(this);
+    this.setStateButton1     = this.setStateButton1.bind(this);
     this.enableDisableButon2 = this.enableDisableButon2.bind(this);
     this.validateInput       = this.validateInput.bind(this);
     this.addUser             = this.addUser.bind(this);
@@ -133,14 +134,17 @@ class Modal extends Component {
    */
   enableDisableButon1() {
     let isDisabled = true;
+    let email      = document.getElementById('email').value;
+    let inCharge   = document.getElementById(MESSAGE_CONSTANTS.TH_COL3).value;
+    let city       = document.getElementById(MESSAGE_CONSTANTS.TH_COL4).value;
+    let state      = document.getElementById(MESSAGE_CONSTANTS.TH_COL5).value;
+    let password   = document.getElementById(MESSAGE_CONSTANTS.TH_COL8).value;
 
-    if(this.state.user || this.state.inCharge || this.state.city || this.state.state || this.state.password) {
+    if(email || inCharge || city || state || password) {
       isDisabled = false;
     }
     
-    this.setState({
-      disabled1: isDisabled
-    });
+    this.setStateButton1(isDisabled);
   }
 
   /**
@@ -157,6 +161,16 @@ class Modal extends Component {
     this.setState({
       disabled2: isDisabled
     });
+  }
+
+  /**
+   * Clear all the input boxes of the modal form-table.
+   * Disable the button after cleaning the inpout boxes. 
+   */
+  clearInputBoxes() {
+    const form = document.getElementById("formOfTable");
+    form.reset();
+    this.setStateButton1(true);
   }
 
   /**
@@ -203,9 +217,13 @@ class Modal extends Component {
     }
   }
 
-  clearInputBoxes() {
-    var form = document.getElementById("myForm");
-    form.reset();
+  /**
+   * Sevaral places are setting disabled1. Therefore was encapsulated.
+   */
+  setStateButton1(boolean) {
+    this.setState({
+      disabled1: boolean
+    });
   }
 
   /**
@@ -244,7 +262,7 @@ class Modal extends Component {
             </div>
             <div className="modal-body">
 
-            <form id="myForm">
+            <form id="formOfTable">
               <table className="table">
                 <thead>
                   <tr>
@@ -257,7 +275,7 @@ class Modal extends Component {
                 </thead>
                 <tbody>
                   <tr>
-                    <td> <input type="text" className="form-control" onChange={ this.validateEmail } /> </td>
+                    <td> <input type="text" className="form-control" id="email" onChange={ this.validateEmail } /> </td>
                     <td> <input type="text" className="form-control" id={ MESSAGE_CONSTANTS.TH_COL3 } onChange={ this.validateInput } /> </td>
                     <td> <input type="text" className="form-control" id={ MESSAGE_CONSTANTS.TH_COL4 } onChange={ this.validateInput } /> </td>
                     <td> <input type="text" className="form-control" id={ MESSAGE_CONSTANTS.TH_COL5 } onChange={ this.validateInput }/> </td>
