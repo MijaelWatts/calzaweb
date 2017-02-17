@@ -100,3 +100,11 @@
 .App-fitcontent {
   width: -moz-fit-content !important;
 }
+
+.App-bordercolor-red {
+  border-color: red !important;
+}
+
+.App-bordercolor-lightseagreen {
+  border-color: lightseagreen !important;
+}

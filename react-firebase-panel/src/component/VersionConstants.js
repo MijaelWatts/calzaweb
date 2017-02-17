@@ -8,7 +8,7 @@ class VersionConstants extends Component {
 		return [
 			{
 				version: '0.0.5',
-				description: ['Registro de email y password de usuario para autenticación.', 'Registro de users, bridge y users-data.', 'Animaciones de mensajes al agregar un nuevo usuario.', 'Boton para limpiar input boxes agregado.', 'Habilitación / Deshabilitación del boton para limpiar input boxes.', 'Limpiar input boxes al cerrar el modal.']
+				description: ['Registro de email y password de usuario para autenticación.', 'Registro de users, bridge y users-data.', 'Animaciones de mensajes al agregar un nuevo usuario.', 'Boton para limpiar input boxes agregado.', 'Habilitación / Deshabilitación del boton para limpiar input boxes.', 'Limpiar input boxes al cerrar el modal.', 'Remover cualquier mensaje del modal al cerrarlo.']
 			},
 			{
 				version: '0.0.4',

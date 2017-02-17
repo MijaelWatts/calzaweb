@@ -26,7 +26,7 @@ function ShowErrorMessage(props) {
 
   return(
     <div className={ animation }>
-      <strong>Error!</strong> Usuario ya existe, o password muy debil.
+      <strong>Error!</strong> El correo asignado al usuario ya está en uso.
     </div>
   );
 }
@@ -39,12 +39,13 @@ function ShowSuccessMessage(props) {
 
   return(
     <div className={ animation }>
-      <strong>Exito!</strong> Usuario agregado correctamente.
+      <strong>Exito!</strong> El usuario fue agregado correctamente.
     </div>
   );
 }
 
 class Modal extends Component {
+
 	constructor(props) {
 		super(props);
 
@@ -57,76 +58,108 @@ class Modal extends Component {
       disabled1        : true,
       disabled2        : true,
       messageToDisplay : null,
-      animationToSet   : null
+      animationToSet   : null,
+      inputText1Css    : MESSAGE_CONSTANTS.FORM_CONTROL,
+      inputText2Css    : MESSAGE_CONSTANTS.FORM_CONTROL,
+      inputText3Css    : MESSAGE_CONSTANTS.FORM_CONTROL,
+      inputText4Css    : MESSAGE_CONSTANTS.FORM_CONTROL,
+      inputText5Css    : MESSAGE_CONSTANTS.FORM_CONTROL
 		});
 
 		this.validateEmail       = this.validateEmail.bind(this);
     this.enableDisableButon1 = this.enableDisableButon1.bind(this);
-    this.setStateButton1     = this.setStateButton1.bind(this);
     this.enableDisableButon2 = this.enableDisableButon2.bind(this);
+    this.setStateButton1     = this.setStateButton1.bind(this);
     this.validateInput       = this.validateInput.bind(this);
     this.addUser             = this.addUser.bind(this);
     this.clearInputBoxes     = this.clearInputBoxes.bind(this);
     this.setMessageToDisplay = this.setMessageToDisplay.bind(this);
+    this.closeModalActions   = this.closeModalActions.bind(this);
 	}
 
 	/**
    * User must be a valid email address.
-   * Calls by default enbleDisableButton method.
+   * If it's set input text to green color, if it's not set it to red color.
+   * Calls by default some methods.
    */
   validateEmail(e) {
     let usuario = null;
+    let inputTextCss = MESSAGE_CONSTANTS.FORM_CONTROL;
+
     // eslint-disable-next-line
     const regexp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     let isTheEmailValid = regexp.test(e.target.value);
     
-    isTheEmailValid ? (usuario = e.target.value) : (usuario = null);
+    if(isTheEmailValid) {
+      usuario = e.target.value
+      inputTextCss += " App-bordercolor-lightseagreen";
+    } else {
+      inputTextCss += " App-bordercolor-red";
+      usuario = null;
+    }
 
     this.setState({
-      user : usuario
+      user          : usuario,
+      inputText1Css : inputTextCss
     });
 
     this.enableDisableButon1();
   	this.enableDisableButon2();
-    this.setAnimationToSet('fadeOut');
+    this.setAnimationToSet(MESSAGE_CONSTANTS.ANIMATION02);
   }
 
   /**
    * All other fields must be at least 4 characters long to be set with the value entered by the user.
-   * Calls by default enbleDisableButton method.
+   * If it's set input text to green color, if it's not set it to red color.
+   * Calls by default some methods.
    */
   validateInput(e) {
   	let input   = null;
   	let inputId = e.target.id;
+    let inputTextCss = MESSAGE_CONSTANTS.FORM_CONTROL;
 
-    (e.target.value.length > 3) ? (input = e.target.value) : (input = null);
+    console.log("e.target.value: ", e.target.value);
+    console.log("e.target.value.length: ", e.target.value.length);
+
+    if(e.target.value.length > 3) {
+      input = e.target.value;
+      inputTextCss += " App-bordercolor-lightseagreen";
+    } else {
+      inputTextCss += " App-bordercolor-red";
+    }
 
 		switch(inputId) {
 			case MESSAGE_CONSTANTS.TH_COL3:
 				this.setState({
-					inCharge : input
+					inCharge      : input,
+          inputText2Css : inputTextCss
 				});
 			break;
 			case MESSAGE_CONSTANTS.TH_COL4:
 				this.setState({
-					city : input
+					city          : input,
+          inputText3Css : inputTextCss
 				});
 			break;
 			case MESSAGE_CONSTANTS.TH_COL5:
 				this.setState({
-					state : input
+					state         : input,
+          inputText4Css : inputTextCss
 				});
 			break;
 			default: // case MESSAGE_CONSTANTS.TH_COL8:
 				this.setState({
-					password : input
+					password      : input,
+          inputText5Css : inputTextCss
 				});
 			break;
 		}
 
     this.enableDisableButon1();
-    this.enableDisableButon2();
-    this.setAnimationToSet('fadeOut');
+    setTimeout(() => {
+      this.enableDisableButon2();
+    }, 1000);
+    this.setAnimationToSet(MESSAGE_CONSTANTS.ANIMATION02);
   }
 
   /**
@@ -171,6 +204,10 @@ class Modal extends Component {
     const form = document.getElementById("formOfTable");
     form.reset();
     this.setStateButton1(true);
+    this.setAnimationToSet(MESSAGE_CONSTANTS.ANIMATION02);
+    setTimeout(() => {
+      this.resetAllStates();
+    }, 500);
   }
 
   /**
@@ -186,7 +223,7 @@ class Modal extends Component {
     this.setMessageToDisplay(null);
 
   	if(email && name && city && state && password) {
-      this.setAnimationToSet('fadeIn');
+      this.setAnimationToSet(MESSAGE_CONSTANTS.ANIMATION01);
   	
       firebase.auth().createUserWithEmailAndPassword(email, password).catch((error) => {
         this.setMessageToDisplay('errorMessage');
@@ -215,6 +252,15 @@ class Modal extends Component {
         }
       }, 1500);
     }
+  }
+
+  /**
+   * There are two main functions we have to do when closing the modal.
+   * clearInputBoxes and setMessageToDisplay
+   */
+  closeModalActions() {
+    this.clearInputBoxes();
+    this.setMessageToDisplay(null);
   }
 
   /**
@@ -248,13 +294,35 @@ class Modal extends Component {
     });
   }
 
+  /**
+   * Resets all states to the base state form.
+   */
+  resetAllStates() {
+    this.setState({
+      user             : null,
+      inCharge         : null,
+      city             : null,
+      state            : null,
+      password         : null,
+      disabled1        : true,
+      disabled2        : true,
+      messageToDisplay : null,
+      animationToSet   : null,
+      inputText1Css    : MESSAGE_CONSTANTS.FORM_CONTROL,
+      inputText2Css    : MESSAGE_CONSTANTS.FORM_CONTROL,
+      inputText3Css    : MESSAGE_CONSTANTS.FORM_CONTROL,
+      inputText4Css    : MESSAGE_CONSTANTS.FORM_CONTROL,
+      inputText5Css    : MESSAGE_CONSTANTS.FORM_CONTROL
+    });
+  }
+
 	render() {
 		return(
 			<div className="modal-dialog App-fitcontent">
 
           <div className="modal-content">
             <div className="modal-header navbar navbar-default App-backgroundcolor-green">
-              <button type="button" className="close" data-dismiss="modal" onClick={ this.clearInputBoxes } >&times;</button>
+              <button type="button" className="close" data-dismiss="modal" onClick={ this.closeModalActions } >&times;</button>
               <h4 className="modal-title">
               	<span className="glyphicon glyphicon-user" /> &nbsp;
               	{ MESSAGE_CONSTANTS.ADD_USER }
@@ -275,11 +343,11 @@ class Modal extends Component {
                 </thead>
                 <tbody>
                   <tr>
-                    <td> <input type="text" className="form-control" id="email" onChange={ this.validateEmail } /> </td>
-                    <td> <input type="text" className="form-control" id={ MESSAGE_CONSTANTS.TH_COL3 } onChange={ this.validateInput } /> </td>
-                    <td> <input type="text" className="form-control" id={ MESSAGE_CONSTANTS.TH_COL4 } onChange={ this.validateInput } /> </td>
-                    <td> <input type="text" className="form-control" id={ MESSAGE_CONSTANTS.TH_COL5 } onChange={ this.validateInput }/> </td>
-                    <td> <input type="text" className="form-control" id={ MESSAGE_CONSTANTS.TH_COL8 } onChange={ this.validateInput }/> </td>
+                    <td> <input type="text" className={ this.state.inputText1Css } id="email" onChange={ this.validateEmail } /> </td>
+                    <td> <input type="text" className={ this.state.inputText2Css } id={ MESSAGE_CONSTANTS.TH_COL3 } onChange={ this.validateInput } /> </td>
+                    <td> <input type="text" className={ this.state.inputText3Css } id={ MESSAGE_CONSTANTS.TH_COL4 } onChange={ this.validateInput } /> </td>
+                    <td> <input type="text" className={ this.state.inputText4Css } id={ MESSAGE_CONSTANTS.TH_COL5 } onChange={ this.validateInput }/> </td>
+                    <td> <input type="text" className={ this.state.inputText5Css } id={ MESSAGE_CONSTANTS.TH_COL8 } onChange={ this.validateInput }/> </td>
                   </tr>
                 </tbody>
               </table>

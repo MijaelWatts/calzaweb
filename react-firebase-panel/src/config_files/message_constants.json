@@ -14,5 +14,8 @@
   "EDIT"             : "Editar",
   "DELETE"           : "Borrar",
   "REDIRECT01"       : "http://localhost:3001",
-  "REDIRECT02"       : "https://developer.mozilla.org/en-US/docs/Tools/Storage_Inspector"
+  "REDIRECT02"       : "https://developer.mozilla.org/en-US/docs/Tools/Storage_Inspector",
+  "FORM_CONTROL"     : "form-control",
+  "ANIMATION01"      : "fadeIn",
+  "ANIMATION02"      : "fadeOut"
 }
