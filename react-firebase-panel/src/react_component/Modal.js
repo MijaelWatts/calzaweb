@@ -49,23 +49,6 @@ class Modal extends Component {
 	constructor(props) {
 		super(props);
 
-		this.state = ({
-			user             : null,
-			inCharge         : null,
-			city             : null,
-			state            : null,
-			password         : null,
-      disabled1        : true,
-      disabled2        : true,
-      messageToDisplay : null,
-      animationToSet   : null,
-      inputText1Css    : MESSAGE_CONSTANTS.FORM_CONTROL,
-      inputText2Css    : MESSAGE_CONSTANTS.FORM_CONTROL,
-      inputText3Css    : MESSAGE_CONSTANTS.FORM_CONTROL,
-      inputText4Css    : MESSAGE_CONSTANTS.FORM_CONTROL,
-      inputText5Css    : MESSAGE_CONSTANTS.FORM_CONTROL
-		});
-
 		this.validateEmail       = this.validateEmail.bind(this);
     this.enableDisableButon1 = this.enableDisableButon1.bind(this);
     this.enableDisableButon2 = this.enableDisableButon2.bind(this);
@@ -75,6 +58,24 @@ class Modal extends Component {
     this.clearInputBoxes     = this.clearInputBoxes.bind(this);
     this.setMessageToDisplay = this.setMessageToDisplay.bind(this);
     this.closeModalActions   = this.closeModalActions.bind(this);
+
+    this.state = ({
+      uid              : props.userId,
+      user             : null,
+      inCharge         : null,
+      city             : null,
+      state            : null,
+      password         : null,
+      disabled1        : true,
+      disabled2        : true,
+      messageToDisplay : null,
+      animationToSet   : null,
+      inputText1Css    : MESSAGE_CONSTANTS.FORM_CONTROL,
+      inputText2Css    : MESSAGE_CONSTANTS.FORM_CONTROL,
+      inputText3Css    : MESSAGE_CONSTANTS.FORM_CONTROL,
+      inputText4Css    : MESSAGE_CONSTANTS.FORM_CONTROL,
+      inputText5Css    : MESSAGE_CONSTANTS.FORM_CONTROL
+    });
 	}
 
 	/**
@@ -117,9 +118,6 @@ class Modal extends Component {
   	let input   = null;
   	let inputId = e.target.id;
     let inputTextCss = MESSAGE_CONSTANTS.FORM_CONTROL;
-
-    console.log("e.target.value: ", e.target.value);
-    console.log("e.target.value.length: ", e.target.value.length);
 
     if(e.target.value.length > 3) {
       input = e.target.value;
@@ -241,7 +239,8 @@ class Modal extends Component {
             redirect_to    : MESSAGE_CONSTANTS.REDIRECT02
           });
 
-          firebase.database().ref('users-data/' + currentUser).set({
+          // firebase.database().ref('users-data/s26fZUtnpndPEAdogcOzxdUpgtr2/' + currentUser).set({
+            firebase.database().ref('users-data/' + this.state.uid + '/' + currentUser).set({
             email    : email,
             city     : city,
             name     : name,

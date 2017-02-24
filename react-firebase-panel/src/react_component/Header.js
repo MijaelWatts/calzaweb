@@ -44,7 +44,7 @@ class Header extends Component {
    *
    */
   getUserName(userId) {
-    firebase.database().ref('/users-data/' + userId).once('value').then( (snapshot) => {
+    firebase.database().ref('/users-data/').once('value').then( (snapshot) => {
       this.setState ({
         username      : snapshot.val().name,
         sessionMessage: MESSAGE_CONSTANTS.CLOSE_SESSION

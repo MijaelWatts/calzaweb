@@ -7,6 +7,10 @@ class VersionConstants extends Component {
 	static get VERSIONS() {
 		return [
 			{
+				version: '0.0.6',
+				description: ['Obtener usuarios de la BD.', 'Crear constante rows que guarde a todos los usuarios.']
+			},
+			{
 				version: '0.0.5',
 				description: ['Registro de email y password de usuario para autenticación.', 'Registro de users, bridge y users-data.', 'Animaciones de mensajes al agregar un nuevo usuario.', 'Boton para limpiar input boxes agregado.', 'Habilitación / Deshabilitación del boton para limpiar input boxes.', 'Limpiar input boxes al cerrar el modal.', 'Remover cualquier mensaje del modal al cerrarlo.', 'Mejoras hechas a la usabilidad del modal.']
 			},
