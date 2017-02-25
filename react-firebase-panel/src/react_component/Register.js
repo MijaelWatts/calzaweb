@@ -1,15 +1,16 @@
 import React, {Component} from 'react';
 import * as firebase from 'firebase';
-import MESSAGE_CONSTANTS from '../config_files/message_constants.json';
 import Modal from './Modal';
+import MESSAGE_CONSTANTS from '../config_files/message_constants.json';
 
 /**
- * TODO: Comments here...
+ * Button for 'Agregar Usuario'
+ * Gets the 'userId' throug the 'props' for sending it to the Modal when it's open.
  */
 function Button(props) {
   return(
     <div>
-      <button className="btn btn-info App-float-right" type="button" id="dropdownMenu1" aria-haspopup="true" aria-expanded="true" data-toggle="modal" data-target="#myModal">
+      <button className="btn btn-info App-float-right animated fadeIn" type="button" id="dropdownMenu1" aria-haspopup="true" aria-expanded="true" data-toggle="modal" data-target="#myModal">
         <span className="glyphicon glyphicon-plus" />
         &nbsp;
         { MESSAGE_CONSTANTS.ADD_USER }
@@ -37,15 +38,12 @@ function DisplayTable(props) {
  * TODO: change the for using the actual values from the DB
  */
 function Table(props) {
+  const ids = Object.keys(props.usersData);
+  let objArray = [];
 
-  const objArray = [
-    {
-      "city" : "Leon",
-      "email" : "elyon.systems.mijael@gmail.com",
-      "name" : "VictorLopez",
-      "state" : "Gto"
-      }
-  ];
+  ids.forEach( (id) => {
+    objArray.push(props.usersData[id]);
+  });
 
   const rows = objArray.map((obj, index) =>
     <tr key={ index }>
@@ -62,14 +60,8 @@ function Table(props) {
     </tr>
   );
 
-  setTimeout(() => {
-    console.log("usersData: ", props.usersData);
-  }, 3000);
-
-  
-
   return(
-    <table className="table">
+    <table className="table animated fadeInLeft">
       <thead>
         <tr>
           <th>{ MESSAGE_CONSTANTS.TH_COL1 }</th>
@@ -85,7 +77,7 @@ function Table(props) {
       </tbody>
       <tfoot>
         <tr>
-          <th>0</th>
+          <th> { objArray.length } </th>
           <th> { MESSAGE_CONSTANTS.USERS_REGISTERED } </th>
           <th></th>
           <th></th>
@@ -98,11 +90,13 @@ function Table(props) {
 }
 
 class Register extends Component {
+
   constructor(props) {
     super(props);
 
     this.state = ({
-      usersData : null
+      usersData : null,
+      usersId   : null
     });
 
     this.getUsersData(props.userId);
@@ -115,7 +109,7 @@ class Register extends Component {
   getUsersData(userId) {
     firebase.database().ref('/users-data/' + userId).once('value').then((snapshot) => {
       this.setState({
-        usersData : snapshot.val()
+        usersData : snapshot.val(),
       });
     });
   }
@@ -125,6 +119,7 @@ class Register extends Component {
     return(
       <div className="App-padding-leftright-p2">
         <Button userId={ this.props.userId } />
+        <br /><br /><br />
         <DisplayTable usersData={ this.state.usersData } />
       </div>
     );

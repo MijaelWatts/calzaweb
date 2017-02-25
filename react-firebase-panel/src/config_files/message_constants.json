@@ -15,5 +15,6 @@
   "REDIRECT02"       : "https://developer.mozilla.org/en-US/docs/Tools/Storage_Inspector",
   "FORM_CONTROL"     : "form-control",
   "ANIMATION01"      : "fadeIn",
-  "ANIMATION02"      : "fadeOut"
+  "ANIMATION02"      : "fadeOut",
+  "PWD"              : "Password"
 }

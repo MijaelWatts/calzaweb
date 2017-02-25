@@ -7,8 +7,8 @@ function FooterInfo(props) {
 	const versionNumber = VersionConstants.VERSIONS[0].version;
 
 	return(
-		<div className="App-textalign-center">
-			<img src={logo_calzaweb_mini} alt="calzaweb" />
+		<div className="App-textalign-center animated fadeIn">
+			<img src={ logo_calzaweb_mini } alt="calzaweb" />
 			<br />
 			<a href="#" onClick={ props.toggleFlag }> {GralConstants.VERSION_WORD} { versionNumber }</a>
 		</div>
@@ -22,7 +22,7 @@ function Panel(props) {
 	);
 
 	return(
-		<div className="App-padding-leftright-p2">
+		<div className="App-padding-leftright-p2 animated fadeInLeft">
 			<div className="panel panel-default">
 				<div className="panel-heading App-backgroundcolor-green">
 					<h2 className="panel-title App-color-black"> {GralConstants.VERSION_WORD} {props.panel.version} </h2>
@@ -44,7 +44,7 @@ function Version() {
 	);
 
 	return(
-		<div>
+		<div className="animated fadeIn">
 			<h2> {GralConstants.VERSIONS_INFO_WORD} </h2>
 			<hr />
 			{ versions }
@@ -79,7 +79,7 @@ class Footer extends Component {
 
 	render() {
 	    return(
-			<div className="App-margintop-p5">
+			<div>
 				<FooterInfo toggleFlag={ this.toggleFlag } />
 				<HideOrShowVersion flag={ this.state.flag } />
 			</div>

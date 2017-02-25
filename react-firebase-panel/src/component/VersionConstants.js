@@ -8,7 +8,7 @@ class VersionConstants extends Component {
 		return [
 			{
 				version: '0.0.6',
-				description: ['Obtener usuarios de la BD.', 'Crear constante rows que guarde a todos los usuarios.']
+				description: ['Obtener usuarios de la BD.', 'Crear constante rows que guarde a todos los usuarios.', 'Mostrar los usuarios de la BD en la tabla.', 'Contar el no. de usuarios registrados.']
 			},
 			{
 				version: '0.0.5',

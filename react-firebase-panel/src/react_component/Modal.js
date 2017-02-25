@@ -145,7 +145,7 @@ class Modal extends Component {
           inputText4Css : inputTextCss
 				});
 			break;
-			default: // case MESSAGE_CONSTANTS.TH_COL8:
+			default: // case MESSAGE_CONSTANTS.PWD:
 				this.setState({
 					password      : input,
           inputText5Css : inputTextCss
@@ -169,7 +169,7 @@ class Modal extends Component {
     let inCharge   = document.getElementById(MESSAGE_CONSTANTS.TH_COL3).value;
     let city       = document.getElementById(MESSAGE_CONSTANTS.TH_COL4).value;
     let state      = document.getElementById(MESSAGE_CONSTANTS.TH_COL5).value;
-    let password   = document.getElementById(MESSAGE_CONSTANTS.TH_COL8).value;
+    let password   = document.getElementById(MESSAGE_CONSTANTS.PWD).value;
 
     if(email || inCharge || city || state || password) {
       isDisabled = false;
@@ -212,6 +212,7 @@ class Modal extends Component {
    * Gets the inputs given from the user and persist them in the DB
    */
   addUser() {
+    const uid      = this.state.uid;
     const email    = this.state.user;
     const city     = this.state.city;
     const name     = this.state.inCharge;
@@ -239,8 +240,7 @@ class Modal extends Component {
             redirect_to    : MESSAGE_CONSTANTS.REDIRECT02
           });
 
-          // firebase.database().ref('users-data/s26fZUtnpndPEAdogcOzxdUpgtr2/' + currentUser).set({
-            firebase.database().ref('users-data/' + this.state.uid + '/' + currentUser).set({
+          firebase.database().ref('users-data/' + uid + '/' + currentUser).set({
             email    : email,
             city     : city,
             name     : name,
@@ -337,7 +337,7 @@ class Modal extends Component {
                     <th className="App-textalign-center"> { MESSAGE_CONSTANTS.TH_COL3 } </th>
                     <th className="App-textalign-center"> { MESSAGE_CONSTANTS.TH_COL4 } </th>
                     <th className="App-textalign-center"> { MESSAGE_CONSTANTS.TH_COL5 } </th>
-                    <th className="App-textalign-center"> { MESSAGE_CONSTANTS.TH_COL8 } </th>
+                    <th className="App-textalign-center"> { MESSAGE_CONSTANTS.PWD } </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -346,7 +346,7 @@ class Modal extends Component {
                     <td> <input type="text" className={ this.state.inputText2Css } id={ MESSAGE_CONSTANTS.TH_COL3 } onChange={ this.validateInput } /> </td>
                     <td> <input type="text" className={ this.state.inputText3Css } id={ MESSAGE_CONSTANTS.TH_COL4 } onChange={ this.validateInput } /> </td>
                     <td> <input type="text" className={ this.state.inputText4Css } id={ MESSAGE_CONSTANTS.TH_COL5 } onChange={ this.validateInput }/> </td>
-                    <td> <input type="text" className={ this.state.inputText5Css } id={ MESSAGE_CONSTANTS.TH_COL8 } onChange={ this.validateInput }/> </td>
+                    <td> <input type="text" className={ this.state.inputText5Css } id={ MESSAGE_CONSTANTS.PWD } onChange={ this.validateInput }/> </td>
                   </tr>
                 </tbody>
               </table>
