@@ -107,7 +107,7 @@ class Register extends Component {
    * TODO: Get users Data into an array [{}, {}] use Object.key(usersData)
    */
   getUsersData(userId) {
-    firebase.database().ref('/users-data/' + userId).once('value').then((snapshot) => {
+    firebase.database().ref('/users-data/' + userId).on('value', (snapshot) => {
       this.setState({
         usersData : snapshot.val(),
       });
