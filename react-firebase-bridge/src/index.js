@@ -6,13 +6,21 @@ import cookie from 'react-cookie';
 /**
  * Your firebase web setup here
  */
+// const config = {
+//   apiKey: "AIzaSyB3K29Aj7ySitbNmctTnoXq0z03ku6ssqw",
+//   authDomain: "login-project-35552.firebaseapp.com",
+//   databaseURL: "https://login-project-35552.firebaseio.com",
+//   storageBucket: "login-project-35552.appspot.com",
+//   messagingSenderId: "338943979739"
+// };
 const config = {
-  apiKey: "AIzaSyB3K29Aj7ySitbNmctTnoXq0z03ku6ssqw",
-  authDomain: "login-project-35552.firebaseapp.com",
-  databaseURL: "https://login-project-35552.firebaseio.com",
-  storageBucket: "login-project-35552.appspot.com",
-  messagingSenderId: "338943979739"
+  apiKey: "AIzaSyCK-nntr0BQvvi85x7hDKdq5_1QNPIP7dc",
+  authDomain: "calzaweb-11d59.firebaseapp.com",
+  databaseURL: "https://calzaweb-11d59.firebaseio.com",
+  storageBucket: "calzaweb-11d59.appspot.com",
+  messagingSenderId: "660940429104"
 };
+
 firebase.initializeApp(config);
 
 class Validator extends Component {
