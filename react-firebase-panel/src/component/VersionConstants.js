@@ -8,7 +8,7 @@ class VersionConstants extends Component {
 		return [
 			{
 				version: '0.0.6',
-				description: ['Mostrar los usuarios registrados en la tabla.', 'Contar los usuarios registrados.', 'La tabla se actualiza automaticamente al agregar un nuevo usuario.']
+				description: ['Mostrar los usuarios registrados en la tabla.', 'Contar los usuarios registrados.', 'La tabla se actualiza automaticamente al agregar un nuevo usuario.', 'Los usuarios registrados pueden ser removidos desde la tabla dentro del panel de Registro.', 'Un email usado previamente y borrado, no puede volver a ser asignado.']
 			},
 			{
 				version: '0.0.5',

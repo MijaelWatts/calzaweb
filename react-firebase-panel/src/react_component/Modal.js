@@ -127,19 +127,19 @@ class Modal extends Component {
     }
 
 		switch(inputId) {
-			case MESSAGE_CONSTANTS.TH_COL3:
+			case MESSAGE_CONSTANTS.TH_COL2:
 				this.setState({
 					inCharge      : input,
           inputText2Css : inputTextCss
 				});
 			break;
-			case MESSAGE_CONSTANTS.TH_COL4:
+			case MESSAGE_CONSTANTS.TH_COL3:
 				this.setState({
 					city          : input,
           inputText3Css : inputTextCss
 				});
 			break;
-			case MESSAGE_CONSTANTS.TH_COL5:
+			case MESSAGE_CONSTANTS.TH_COL4:
 				this.setState({
 					state         : input,
           inputText4Css : inputTextCss
@@ -166,9 +166,9 @@ class Modal extends Component {
   enableDisableButon1() {
     let isDisabled = true;
     let email      = document.getElementById('email').value;
-    let inCharge   = document.getElementById(MESSAGE_CONSTANTS.TH_COL3).value;
-    let city       = document.getElementById(MESSAGE_CONSTANTS.TH_COL4).value;
-    let state      = document.getElementById(MESSAGE_CONSTANTS.TH_COL5).value;
+    let inCharge   = document.getElementById(MESSAGE_CONSTANTS.TH_COL2).value;
+    let city       = document.getElementById(MESSAGE_CONSTANTS.TH_COL3).value;
+    let state      = document.getElementById(MESSAGE_CONSTANTS.TH_COL4).value;
     let password   = document.getElementById(MESSAGE_CONSTANTS.PWD).value;
 
     if(email || inCharge || city || state || password) {
@@ -333,19 +333,19 @@ class Modal extends Component {
               <table className="table">
                 <thead>
                   <tr>
+                    <th className="App-textalign-center"> { MESSAGE_CONSTANTS.TH_COL1 } </th>
                     <th className="App-textalign-center"> { MESSAGE_CONSTANTS.TH_COL2 } </th>
                     <th className="App-textalign-center"> { MESSAGE_CONSTANTS.TH_COL3 } </th>
                     <th className="App-textalign-center"> { MESSAGE_CONSTANTS.TH_COL4 } </th>
-                    <th className="App-textalign-center"> { MESSAGE_CONSTANTS.TH_COL5 } </th>
                     <th className="App-textalign-center"> { MESSAGE_CONSTANTS.PWD } </th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td> <input type="text" className={ this.state.inputText1Css } id="email" onChange={ this.validateEmail } /> </td>
-                    <td> <input type="text" className={ this.state.inputText2Css } id={ MESSAGE_CONSTANTS.TH_COL3 } onChange={ this.validateInput } /> </td>
-                    <td> <input type="text" className={ this.state.inputText3Css } id={ MESSAGE_CONSTANTS.TH_COL4 } onChange={ this.validateInput } /> </td>
-                    <td> <input type="text" className={ this.state.inputText4Css } id={ MESSAGE_CONSTANTS.TH_COL5 } onChange={ this.validateInput }/> </td>
+                    <td> <input type="text" className={ this.state.inputText2Css } id={ MESSAGE_CONSTANTS.TH_COL2 } onChange={ this.validateInput } /> </td>
+                    <td> <input type="text" className={ this.state.inputText3Css } id={ MESSAGE_CONSTANTS.TH_COL3 } onChange={ this.validateInput } /> </td>
+                    <td> <input type="text" className={ this.state.inputText4Css } id={ MESSAGE_CONSTANTS.TH_COL4 } onChange={ this.validateInput }/> </td>
                     <td> <input type="text" className={ this.state.inputText5Css } id={ MESSAGE_CONSTANTS.PWD } onChange={ this.validateInput }/> </td>
                   </tr>
                 </tbody>

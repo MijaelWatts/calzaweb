@@ -10,7 +10,7 @@ import MESSAGE_CONSTANTS from '../config_files/message_constants.json';
 function Button(props) {
   return(
     <div>
-      <button className="btn btn-info App-float-right animated fadeIn" type="button" id="dropdownMenu1" aria-haspopup="true" aria-expanded="true" data-toggle="modal" data-target="#myModal" onClick={ props.deleteUser }>
+      <button className="btn btn-info App-float-right animated fadeIn" type="button" id="dropdownMenu1" aria-haspopup="true" aria-expanded="true" data-toggle="modal" data-target="#myModal" >
         <span className="glyphicon glyphicon-plus" />
         &nbsp;
         { MESSAGE_CONSTANTS.ADD_USER }
@@ -34,16 +34,18 @@ function DisplayTable(props) {
   }
 }
 
+let usersIds = [];
+
 /**
  * TODO: Generate comments
  */
 function Table(props) {
-  console.log(props);
+  console.log("Table props: ", props);
 
-  const ids = Object.keys(props.usersData);
+  usersIds = Object.keys(props.usersData);
   let objArray = [];
 
-  ids.forEach( (id) => {
+  usersIds.forEach( (id) => {
     objArray.push(props.usersData[id]);
   });
 
@@ -54,7 +56,7 @@ function Table(props) {
       <td>{ obj.city }</td>
       <td>{ obj.state }</td>
       <td>
-        <button type="button" className="btn btn-danger" onClick={ props.deleteUser }>
+        <button type="button" className="btn btn-danger" onClick={ () => { props.deleteUser(index) } }>
           <span className="glyphicon glyphicon-trash"></span> 
         </button>
       </td>
@@ -114,22 +116,20 @@ class Register extends Component {
   }
 
   /**
-   * TODO: Get the id of the user to delete
    * Delete a user from the DB
+   * @param index - The row of the table that we want to delete.
    */
-  deleteUser() {
-    console.log("Clicked");
-    // firebase.database().ref('/users-data/' + this.props.userId + '/squ5RRTeD5Pv5tAeucTQgyV7k903').once('value').then( (snapshot) => {
-    //   console.log("Valor obtenido: ", snapshot.val());
-    // });
-    // firebase.database().ref('/users-data/' + this.props.userId + '/squ5RRTeD5Pv5tAeucTQgyV7k903').remove();
+  deleteUser(index) {
+    firebase.database().ref('/bridge/' + usersIds[index]).remove();
+    firebase.database().ref('/users/' + usersIds[index]).remove();
+    firebase.database().ref('/users-data/' + this.props.userId + '/' + usersIds[index]).remove();
   }
 
 
   render() {
     return(
       <div className="App-padding-leftright-p2">
-        <Button userId={ this.props.userId } deleteUser={ this.deleteUser } />
+        <Button userId={ this.props.userId } />
         <br /><br /><br />
         <DisplayTable usersData={ this.state.usersData } deleteUser={ this.deleteUser } />
       </div>
