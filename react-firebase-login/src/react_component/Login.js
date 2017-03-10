@@ -1,17 +1,8 @@
 import React, {Component} from 'react';
 import * as firebase from 'firebase';
 import cookie from 'react-cookie';
+import CONSTANTS from '../config_files/constants.json'
 
-/**
- * Your firebase web setup here
- */
-// const config = {
-//   apiKey: "AIzaSyB3K29Aj7ySitbNmctTnoXq0z03ku6ssqw",
-//   authDomain: "login-project-35552.firebaseapp.com",
-//   databaseURL: "https://login-project-35552.firebaseio.com",
-//   storageBucket: "login-project-35552.appspot.com",
-//   messagingSenderId: "338943979739"
-// };
 const config = {
   apiKey: "AIzaSyCK-nntr0BQvvi85x7hDKdq5_1QNPIP7dc",
   authDomain: "calzaweb-11d59.firebaseapp.com",
@@ -19,7 +10,6 @@ const config = {
   storageBucket: "calzaweb-11d59.appspot.com",
   messagingSenderId: "660940429104"
 };
-
 firebase.initializeApp(config);
 
 /**
@@ -34,7 +24,7 @@ function UserInput(props) {
         </p>
       </div>
       <div className="col-xs-6 col-md-6 col-sm-6 col-lg-6 App-textalign-initial">
-        <input type="text" className="App-login-inputs" onChange={props.validateAndSetUser} />
+        <input type="text" onChange={ props.validateAndSetUser } />
       </div>
     </div>
   );
@@ -52,7 +42,7 @@ function PasswordInput(props) {
         </p>
       </div>
       <div className="col-xs-6 col-md-6 col-sm-6 col-lg-6 App-textalign-initial">
-        <input type="password" className="App-login-inputs" onChange={props.validateAndSetPass} />
+        <input type="password" onChange={ props.validateAndSetPass } />
       </div>
     </div>
   );
@@ -64,7 +54,7 @@ function PasswordInput(props) {
 function LoginButton(props) {
   return(
     <div>
-      <button type="button" disabled={props.disabled} className="btn btn-success App-margintop-p0_5" onClick={props.handleSignIn} >
+      <button type="button" disabled={props.disableButton} className="btn btn-success App-margintop-p0_5" onClick={ props.handleSignIn } >
         Entrar
       </button>
     </div>
@@ -72,13 +62,13 @@ function LoginButton(props) {
 }
 
 /**
- * Based on the props that is true, a message will be displayed, or not.
+ * Based on the props, a message will be displayed, or not.
  */
 function DisplayErrorOrSuccessMessage(props) {
-  if(props.messageToDisplay === 'errorMessage') {
-    return <ShowErrorMessage />
+  if(props.messageToDisplay === CONSTANTS.ERROR) {
+    return <ShowErrorMessage animationToSet={ props.animationToSet } />
   }
-  else if(props.messageToDisplay === 'successMessage') {
+  else if(props.messageToDisplay === CONSTANTS.SUCCESS) {
     return <ShowSuccessMessage />
   }
   else {
@@ -89,9 +79,11 @@ function DisplayErrorOrSuccessMessage(props) {
 /**
  * Error message for when the user typed invalid credentials
  */
-function ShowErrorMessage() {
+function ShowErrorMessage(props) {
+  const animation = "alert alert-danger App-margintop-p1 animated " + props.animationToSet;
+
   return(
-    <div className="alert alert-danger App-margintop-p1">
+    <div className={ animation }>
       <strong>Error!</strong> Por favor valida que hayas ingresado las credenciales correctas.
     </div>
   );
@@ -102,8 +94,8 @@ function ShowErrorMessage() {
  */
 function ShowSuccessMessage() {
   return(
-    <div className="alert alert-success App-margintop-p1">
-      <strong>Credenciales Correctas!</strong> Redireccionando...
+    <div className="alert alert-success App-margintop-p1 animated fadeIn">
+      <strong>Credenciales Correctas!</strong> Redireccionando.
     </div>
   );
 }
@@ -111,8 +103,7 @@ function ShowSuccessMessage() {
 class Login extends Component {
 
   /**
-   * For security the session isn't stored.
-   * If the user goes back to the login, the firebase authentication is killed.
+   * By default any session is killed once the login is rendered.
    */
   constructor(props) {
     super(props);
@@ -120,36 +111,38 @@ class Login extends Component {
     this.state = {
       user             : null,
       pass             : null,    
-      disabled         : true,
-      messageToDisplay : null
+      disableButton    : true,
+      messageToDisplay : null,
+      animationToSet   : null
     };
 
-    this.killEverything        = this.killEverything.bind(this);
-    this.validateAndSetUser    = this.validateAndSetUser.bind(this);
-    this.validateAndSetPass    = this.validateAndSetPass.bind(this);
-    this.enableDisableButon    = this.enableDisableButon.bind(this);
-    this.setMessageToDisplay   = this.setMessageToDisplay.bind(this);
-		this.handleSignIn          = this.handleSignIn.bind(this);
-    this.handleAuthentication  = this.handleAuthentication.bind(this);
+    this.killSession          = this.killSession.bind(this);
+    this.validateAndSetUser   = this.validateAndSetUser.bind(this);
+    this.validateAndSetPass   = this.validateAndSetPass.bind(this);
+    this.enableDisableButon   = this.enableDisableButon.bind(this);
+    this.setMessageToDisplay  = this.setMessageToDisplay.bind(this);
+		this.handleSignIn         = this.handleSignIn.bind(this);
+    this.handleAuthentication = this.handleAuthentication.bind(this);
+    this.setAnimation         = this.setAnimation.bind(this);
 
-    this.killEverything(); // The firebase authentication is killed.
+    this.killSession(); // The firebase authentication is killed.
   }
 
   /**
    * Killing firebase authentication, and cookie.
    */
-  killEverything(){
-    cookie.remove('userId', { path: '/' });
+  killSession(){
+    cookie.remove(CONSTANTS.UID, { path: '/' });
     firebase.auth().signOut();
   }
 
   /**
    * User must be a valid email address.
-   * Calls by default enbleDisableButton method.
-   * By default, this method will setMessageToDisplay to null.
+   * Calls by default enableDisableButton() and setMessageToDisplay(null).
    */
   validateAndSetUser(e) {
     let usuario = null;
+
     // eslint-disable-next-line
     const regexp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     let isTheEmailValid = regexp.test(e.target.value);
@@ -166,8 +159,7 @@ class Login extends Component {
 
   /**
    * Password must be at least 5 characters long to be set with the value entered by the user.
-   * Calls by default enbleDisableButton method.
-   * By default, this method will setMessageToDisplay to null.
+   * Calls by default enableDisableButton() and setMessageToDisplay(null).
    */
   validateAndSetPass(e) {
     let password = null;
@@ -183,36 +175,25 @@ class Login extends Component {
   }
 
   /**
-   * If user and password don't meet the requirements:
-   *    The "Sign In" button won't be enabled
+   * User and password must meet the requirements for the button to be enable.
    */
   enableDisableButon() {
     let isDisabled = true;
 
-    if(this.state.user && this.state.pass) {
-      isDisabled = false;
-    }
-    
-    this.setState({
-      disabled: isDisabled
-    });
-  }
-
-  /**
-   * Helps to show the messages in the UI.
-   * @param message - null           : displays no message.
-   * @param message - errorMessage   : displays an err message.
-   * @param message - successMessage : displays a success message.
-   */
-  setMessageToDisplay(message) {
-    this.setState({
-      messageToDisplay : message
-    }); 
+    setTimeout( () => {
+      if(this.state.user && this.state.pass) {
+        isDisabled = false;
+      }
+      
+      this.setState({
+        disableButton: isDisabled
+      });
+    }, 500 );
   }
 
   /**
    * Sign in with the credentials the user entered.
-   *  If the credentials are wrong, throw err messages.
+   *  If the credentials are wrong, throw err message.
    * Call by default handleAuthentication method.
    */
   handleSignIn() {
@@ -221,7 +202,7 @@ class Login extends Component {
 
     if(user && pass) {
       firebase.auth().signInWithEmailAndPassword(user, pass).catch((error) => {
-        this.setMessageToDisplay('errorMessage');
+        this.setMessageToDisplay(CONSTANTS.ERROR);
       });  
     }
 
@@ -237,7 +218,7 @@ class Login extends Component {
   handleAuthentication(props) {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        this.setMessageToDisplay('successMessage');
+        this.setMessageToDisplay(CONSTANTS.SUCCESS);
         this.whereToRedirect();
       }
     });
@@ -248,17 +229,40 @@ class Login extends Component {
    */
   whereToRedirect() {
     const userId = firebase.auth().currentUser.uid;
-    // const userId = "vBHoWoCtbiXEl67FXubugYjcyhO2";
 
-    firebase.database().ref('/bridge/' + userId).once('value').then(function(snapshot) {
-      // Save the loged user
-      // const updates = {};
-      // updates['/users-data/' + userId + '/log'] = userId;
-      // firebase.database().ref().update(updates);
-      cookie.save('userId', userId, { path: '/', maxAge: 3600 });
-
-      // Redirect
+    firebase.database().ref(CONSTANTS.BRIDGE + userId).once('value').then((snapshot) => {
+      cookie.save(CONSTANTS.UID, userId, { path: '/', maxAge: CONSTANTS.MAX_AGE });
       window.location.href = snapshot.val().redirect_to;
+    });
+  }
+
+  /**
+   * Helps to show the messages in the UI.
+   * @param message - null           : displays no message.
+   * @param message - errorMessage   : displays an err message.
+   * @param message - successMessage : displays a success message.
+   */
+  setMessageToDisplay(message) {
+    if (message === null) {
+      this.setAnimation(CONSTANTS.ANIMATION2);
+    } else {
+      this.setAnimation(CONSTANTS.ANIMATION1);
+    }
+
+    setTimeout( () => {
+      this.setState({
+        messageToDisplay : message
+      }); 
+    }, 500)
+  }
+
+  /**
+   * Helps for the animation of the Success or Error message.
+   * @param animation - fadeIn or fadeOut
+   */
+  setAnimation(animation) {
+    this.setState({
+      animationToSet : animation
     });
   }
 
@@ -267,8 +271,8 @@ class Login extends Component {
       <div className="App App-margintop-m1">
         <UserInput validateAndSetUser={ this.validateAndSetUser }/>
         <PasswordInput validateAndSetPass={ this.validateAndSetPass } />
-        <LoginButton disabled={this.state.disabled} handleSignIn={this.handleSignIn} />
-        <DisplayErrorOrSuccessMessage messageToDisplay={ this.state.messageToDisplay } />
+        <LoginButton disableButton={this.state.disableButton} handleSignIn={this.handleSignIn} />
+        <DisplayErrorOrSuccessMessage messageToDisplay={ this.state.messageToDisplay } animationToSet={ this.state.animationToSet }/>
       </div>
     );
   }

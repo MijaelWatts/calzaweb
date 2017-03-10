@@ -1,0 +1,9 @@
+{
+  "UID"        : "userId",
+  "ERROR"      : "errorMessage",
+  "SUCCESS"    : "successMessage",
+  "BRIDGE"     : "/bridge/",
+  "MAX_AGE"    : 3600,
+  "ANIMATION1" : "fadeIn",
+  "ANIMATION2" : "fadeOut"
+}
