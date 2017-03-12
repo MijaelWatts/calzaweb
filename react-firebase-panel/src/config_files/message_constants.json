@@ -14,5 +14,7 @@
   "FORM_CONTROL"     : "form-control",
   "ANIMATION01"      : "fadeIn",
   "ANIMATION02"      : "fadeOut",
-  "PWD"              : "Password"
+  "PWD"              : "Password",
+  "VERSION"          : "Versión",
+  "VERSIONS_INFO"    : "Información de Versiones"
 }

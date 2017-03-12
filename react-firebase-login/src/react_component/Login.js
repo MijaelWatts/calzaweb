@@ -3,14 +3,7 @@ import * as firebase from 'firebase';
 import cookie from 'react-cookie';
 import CONSTANTS from '../config_files/constants.json'
 
-const config = {
-  apiKey: "AIzaSyCK-nntr0BQvvi85x7hDKdq5_1QNPIP7dc",
-  authDomain: "calzaweb-11d59.firebaseapp.com",
-  databaseURL: "https://calzaweb-11d59.firebaseio.com",
-  storageBucket: "calzaweb-11d59.appspot.com",
-  messagingSenderId: "660940429104"
-};
-firebase.initializeApp(config);
+firebase.initializeApp(CONSTANTS.FIREBASE);
 
 /**
  * Input for typing the user email

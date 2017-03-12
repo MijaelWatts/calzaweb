@@ -1,12 +1,8 @@
 {
-  "UID"        : "userId",
-  "ERROR"      : "errorMessage",
-  "SUCCESS"    : "successMessage",
-  "BRIDGE"     : "/bridge/",
-  "MAX_AGE"    : 3600,
-  "ANIMATION1" : "fadeIn",
-  "ANIMATION2" : "fadeOut",
-  "FIREBASE"   : {
+	"UID"        : "userId",
+	"HREF1"      : "http://localhost:3000/",
+	"REFERENCE1" : "/users-data/",
+	"FIREBASE"   : {
   	"apiKey"            : "AIzaSyCK-nntr0BQvvi85x7hDKdq5_1QNPIP7dc",
   	"authDomain"        : "calzaweb-11d59.firebaseapp.com",
   	"databaseURL"       : "https://calzaweb-11d59.firebaseio.com",
