@@ -1,25 +1,27 @@
 import React, {Component} from 'react';
-import VersionConstants from '../component/VersionConstants';
 import MESSAGE_CONSTANTS from '../config_files/message_constants.json';
 import VERSIONS from '../config_files/versions.json';
 import logo_calzaweb_mini from '../img/logo-calzaweb-mini.png'
 
+/**
+ *
+ */
 function FooterInfo(props) {
-	const versionNumber = VersionConstants.VERSIONS[0].version; // TODO: Change this
-
 	return(
 		<div className="App-textalign-center animated fadeIn">
 			<img src={ logo_calzaweb_mini } alt="calzaweb" />
 			<br />
-			<a href="#" onClick={ props.toggleFlag }> {MESSAGE_CONSTANTS.VERSION} { versionNumber }</a>
+			<a href="#" onClick={ props.toggleFlag }> { MESSAGE_CONSTANTS.VERSION } { VERSIONS[0].version }</a>
 		</div>
 	);
 }
 
+/**
+ *
+ */
 function Panel(props) {
-	console.log("props: ", props);
-
 	const description = props.panel.description;
+	
 	const descriptions = description.map( (description, index) =>
 		<li key={ index }> { description } </li>
 	);
@@ -40,12 +42,14 @@ function Panel(props) {
 	);
 }
 
+/**
+ *
+ */
 function Version() {
-	// const version = VersionConstants.VERSIONS;
 	const version = VERSIONS;
 
 	const versions = version.map( (version, index) =>
-		<Panel key={ index } panel={ VersionConstants.VERSIONS[index] } />
+		<Panel key={ index } panel={ VERSIONS[index] } />
 	);
 
 	return(
@@ -57,6 +61,9 @@ function Version() {
 	);
 }
 
+/**
+ *
+ */
 function HideOrShowVersion(props) {
 	if(props.flag) {
 		return <Version />
