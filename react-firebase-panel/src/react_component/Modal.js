@@ -1,16 +1,17 @@
 import React, {Component} from 'react';
 import * as firebase from 'firebase';
 import MESSAGE_CONSTANTS from '../config_files/message_constants.json';
+import CONSTANTS from '../config_files/constants.json';
 
 /**
  * Based on the props that is true, a message will be displayed, or not.
  */
 function DisplayErrorOrSuccessMessage(props) {
 
-  if(props.messageToDisplay === 'errorMessage') {
+  if(props.messageToDisplay === CONSTANTS.ERROR_MSG) {
     return <ShowErrorMessage animationToSet={ props.animationToSet } />
   }
-  else if(props.messageToDisplay === 'successMessage') {
+  else if(props.messageToDisplay === CONSTANTS.SUCCESS_MSG) {
     return <ShowSuccessMessage animationToSet={ props.animationToSet } />
   }
   else {
@@ -70,22 +71,22 @@ class Modal extends Component {
       disabled2        : true,
       messageToDisplay : null,
       animationToSet   : null,
-      inputText1Css    : MESSAGE_CONSTANTS.FORM_CONTROL,
-      inputText2Css    : MESSAGE_CONSTANTS.FORM_CONTROL,
-      inputText3Css    : MESSAGE_CONSTANTS.FORM_CONTROL,
-      inputText4Css    : MESSAGE_CONSTANTS.FORM_CONTROL,
-      inputText5Css    : MESSAGE_CONSTANTS.FORM_CONTROL
+      inputText1Css    : CONSTANTS.FORM_CONTROL,
+      inputText2Css    : CONSTANTS.FORM_CONTROL,
+      inputText3Css    : CONSTANTS.FORM_CONTROL,
+      inputText4Css    : CONSTANTS.FORM_CONTROL,
+      inputText5Css    : CONSTANTS.FORM_CONTROL
     });
 	}
 
 	/**
    * User must be a valid email address.
-   * If it's set input text to green color, if it's not set it to red color.
+   * If it's, set input text to green color, if it's not set it to red color.
    * Calls by default some methods.
    */
   validateEmail(e) {
     let usuario = null;
-    let inputTextCss = MESSAGE_CONSTANTS.FORM_CONTROL;
+    let inputTextCss = CONSTANTS.FORM_CONTROL;
 
     // eslint-disable-next-line
     const regexp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -93,9 +94,9 @@ class Modal extends Component {
     
     if(isTheEmailValid) {
       usuario = e.target.value
-      inputTextCss += " App-bordercolor-lightseagreen";
+      inputTextCss += CONSTANTS.APP_CORRECT;
     } else {
-      inputTextCss += " App-bordercolor-red";
+      inputTextCss += CONSTANTS.APP_WRONG;
       usuario = null;
     }
 
@@ -106,7 +107,7 @@ class Modal extends Component {
 
     this.enableDisableButon1();
   	this.enableDisableButon2();
-    this.setAnimationToSet(MESSAGE_CONSTANTS.ANIMATION02);
+    this.setAnimationToSet(CONSTANTS.ANIMATION02);
   }
 
   /**
@@ -117,29 +118,29 @@ class Modal extends Component {
   validateInput(e) {
   	let input   = null;
   	let inputId = e.target.id;
-    let inputTextCss = MESSAGE_CONSTANTS.FORM_CONTROL;
+    let inputTextCss = CONSTANTS.FORM_CONTROL;
 
     if(e.target.value.length > 3) {
       input = e.target.value;
-      inputTextCss += " App-bordercolor-lightseagreen";
+      inputTextCss += CONSTANTS.APP_CORRECT;
     } else {
-      inputTextCss += " App-bordercolor-red";
+      inputTextCss += CONSTANTS.APP_WRONG;
     }
 
 		switch(inputId) {
-			case MESSAGE_CONSTANTS.TH_COL2:
+			case MESSAGE_CONSTANTS.TH_02:
 				this.setState({
 					inCharge      : input,
           inputText2Css : inputTextCss
 				});
 			break;
-			case MESSAGE_CONSTANTS.TH_COL3:
+			case MESSAGE_CONSTANTS.TH_03:
 				this.setState({
 					city          : input,
           inputText3Css : inputTextCss
 				});
 			break;
-			case MESSAGE_CONSTANTS.TH_COL4:
+			case MESSAGE_CONSTANTS.TH_04:
 				this.setState({
 					state         : input,
           inputText4Css : inputTextCss
@@ -157,7 +158,7 @@ class Modal extends Component {
     setTimeout(() => {
       this.enableDisableButon2();
     }, 1000);
-    this.setAnimationToSet(MESSAGE_CONSTANTS.ANIMATION02);
+    this.setAnimationToSet(CONSTANTS.ANIMATION02);
   }
 
   /**
@@ -166,9 +167,9 @@ class Modal extends Component {
   enableDisableButon1() {
     let isDisabled = true;
     let email      = document.getElementById('email').value;
-    let inCharge   = document.getElementById(MESSAGE_CONSTANTS.TH_COL2).value;
-    let city       = document.getElementById(MESSAGE_CONSTANTS.TH_COL3).value;
-    let state      = document.getElementById(MESSAGE_CONSTANTS.TH_COL4).value;
+    let inCharge   = document.getElementById(MESSAGE_CONSTANTS.TH_02).value;
+    let city       = document.getElementById(MESSAGE_CONSTANTS.TH_03).value;
+    let state      = document.getElementById(MESSAGE_CONSTANTS.TH_04).value;
     let password   = document.getElementById(MESSAGE_CONSTANTS.PWD).value;
 
     if(email || inCharge || city || state || password) {
@@ -194,15 +195,17 @@ class Modal extends Component {
     });
   }
 
-  /**
+  /**   
    * Clear all the input boxes of the modal form-table.
    * Disable the button after cleaning the inpout boxes. 
    */
   clearInputBoxes() {
     const form = document.getElementById("formOfTable");
     form.reset();
+
     this.setStateButton1(true);
-    this.setAnimationToSet(MESSAGE_CONSTANTS.ANIMATION02);
+    this.setAnimationToSet(CONSTANTS.ANIMATION02);
+
     setTimeout(() => {
       this.resetAllStates();
     }, 500);
@@ -222,32 +225,32 @@ class Modal extends Component {
     this.setMessageToDisplay(null);
 
   	if(email && name && city && state && password) {
-      this.setAnimationToSet(MESSAGE_CONSTANTS.ANIMATION01);
+      this.setAnimationToSet(CONSTANTS.ANIMATION01);
   	
       firebase.auth().createUserWithEmailAndPassword(email, password).catch((error) => {
-        this.setMessageToDisplay('errorMessage');
+        this.setMessageToDisplay(CONSTANTS.ERROR_MSG);
       });
 
       setTimeout(() => {
         if(this.state.messageToDisplay === null) {
           const currentUser = firebase.auth().currentUser.uid;
 
-          firebase.database().ref('bridge/' + currentUser).set({
-            redirect_to    : MESSAGE_CONSTANTS.REDIRECT01
+          firebase.database().ref(CONSTANTS.REFERENCE3 + currentUser).set({
+            redirect_to : CONSTANTS.REDIRECT01
           });
 
-          firebase.database().ref('users/' + currentUser).set({
-            redirect_to    : MESSAGE_CONSTANTS.REDIRECT02
+          firebase.database().ref(CONSTANTS.REFERENCE2 + currentUser).set({
+            redirect_to : CONSTANTS.REDIRECT02
           });
 
-          firebase.database().ref('users-data/' + uid + '/' + currentUser).set({
+          firebase.database().ref(CONSTANTS.REFERENCE1 + uid + '/' + currentUser).set({
             email    : email,
             city     : city,
             name     : name,
             state    : state
           });
 
-          this.setMessageToDisplay('successMessage');
+          this.setMessageToDisplay(CONSTANTS.SUCCESS_MSG);
         }
       }, 1500);
     }
@@ -307,11 +310,11 @@ class Modal extends Component {
       disabled2        : true,
       messageToDisplay : null,
       animationToSet   : null,
-      inputText1Css    : MESSAGE_CONSTANTS.FORM_CONTROL,
-      inputText2Css    : MESSAGE_CONSTANTS.FORM_CONTROL,
-      inputText3Css    : MESSAGE_CONSTANTS.FORM_CONTROL,
-      inputText4Css    : MESSAGE_CONSTANTS.FORM_CONTROL,
-      inputText5Css    : MESSAGE_CONSTANTS.FORM_CONTROL
+      inputText1Css    : CONSTANTS.FORM_CONTROL,
+      inputText2Css    : CONSTANTS.FORM_CONTROL,
+      inputText3Css    : CONSTANTS.FORM_CONTROL,
+      inputText4Css    : CONSTANTS.FORM_CONTROL,
+      inputText5Css    : CONSTANTS.FORM_CONTROL
     });
   }
 
@@ -333,19 +336,19 @@ class Modal extends Component {
               <table className="table">
                 <thead>
                   <tr>
-                    <th className="App-textalign-center"> { MESSAGE_CONSTANTS.TH_COL1 } </th>
-                    <th className="App-textalign-center"> { MESSAGE_CONSTANTS.TH_COL2 } </th>
-                    <th className="App-textalign-center"> { MESSAGE_CONSTANTS.TH_COL3 } </th>
-                    <th className="App-textalign-center"> { MESSAGE_CONSTANTS.TH_COL4 } </th>
+                    <th className="App-textalign-center"> { MESSAGE_CONSTANTS.TH_01 } </th>
+                    <th className="App-textalign-center"> { MESSAGE_CONSTANTS.TH_02 } </th>
+                    <th className="App-textalign-center"> { MESSAGE_CONSTANTS.TH_03 } </th>
+                    <th className="App-textalign-center"> { MESSAGE_CONSTANTS.TH_04 } </th>
                     <th className="App-textalign-center"> { MESSAGE_CONSTANTS.PWD } </th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td> <input type="text" className={ this.state.inputText1Css } id="email" onChange={ this.validateEmail } /> </td>
-                    <td> <input type="text" className={ this.state.inputText2Css } id={ MESSAGE_CONSTANTS.TH_COL2 } onChange={ this.validateInput } /> </td>
-                    <td> <input type="text" className={ this.state.inputText3Css } id={ MESSAGE_CONSTANTS.TH_COL3 } onChange={ this.validateInput } /> </td>
-                    <td> <input type="text" className={ this.state.inputText4Css } id={ MESSAGE_CONSTANTS.TH_COL4 } onChange={ this.validateInput }/> </td>
+                    <td> <input type="text" className={ this.state.inputText2Css } id={ MESSAGE_CONSTANTS.TH_02 } onChange={ this.validateInput } /> </td>
+                    <td> <input type="text" className={ this.state.inputText3Css } id={ MESSAGE_CONSTANTS.TH_03 } onChange={ this.validateInput } /> </td>
+                    <td> <input type="text" className={ this.state.inputText4Css } id={ MESSAGE_CONSTANTS.TH_04 } onChange={ this.validateInput }/> </td>
                     <td> <input type="text" className={ this.state.inputText5Css } id={ MESSAGE_CONSTANTS.PWD } onChange={ this.validateInput }/> </td>
                   </tr>
                 </tbody>

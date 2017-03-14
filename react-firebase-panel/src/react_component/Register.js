@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import * as firebase from 'firebase';
 import Modal from './Modal';
 import MESSAGE_CONSTANTS from '../config_files/message_constants.json';
+import CONSTANTS from '../config_files/constants.json';
+
+let usersIds = []; // This is set general for our method deleteUser within the class can work.
 
 /**
  * Button for 'Agregar Usuario'
@@ -34,21 +37,25 @@ function DisplayTable(props) {
   }
 }
 
-let usersIds = [];
-
 /**
- * TODO: Generate comments
+ * Create and display the table with all the loaded users.
+ * objArray holds the info of each user.
+ * usersIds holds the ids of each user.
+ * The map() function helps to display each row of the table.
+ * The return() function displays the whole table.
+ *
+ * @ props - Holds the usersData of each registered user
  */
 function Table(props) {
-  console.log("Table props: ", props);
+  let objArray = [];
 
   usersIds = Object.keys(props.usersData);
-  let objArray = [];
 
   usersIds.forEach( (id) => {
     objArray.push(props.usersData[id]);
   });
 
+  // props.deleteUser(index) calls the method deleteUser within the Register class.
   const rows = objArray.map((obj, index) =>
     <tr key={ index }>
       <td>{ obj.email }</td>
@@ -67,10 +74,10 @@ function Table(props) {
     <table className="table animated fadeInLeft">
       <thead>
         <tr>
-          <th>{ MESSAGE_CONSTANTS.TH_COL1 }</th>
-          <th>{ MESSAGE_CONSTANTS.TH_COL2 }</th>
-          <th>{ MESSAGE_CONSTANTS.TH_COL3 }</th>
-          <th>{ MESSAGE_CONSTANTS.TH_COL4 }</th>
+          <th>{ MESSAGE_CONSTANTS.TH_01 }</th>
+          <th>{ MESSAGE_CONSTANTS.TH_02 }</th>
+          <th>{ MESSAGE_CONSTANTS.TH_03 }</th>
+          <th>{ MESSAGE_CONSTANTS.TH_04 }</th>
           <th>{ MESSAGE_CONSTANTS.DELETE }</th>
         </tr>
       </thead>
@@ -108,7 +115,7 @@ class Register extends Component {
    * Gets users to display in the table
    */
   getUsersData(userId) {
-    firebase.database().ref('/users-data/' + userId).on('value', (snapshot) => {
+    firebase.database().ref(CONSTANTS.REFERENCE1 + userId).on('value', (snapshot) => {
       this.setState({
         usersData : snapshot.val(),
       });
@@ -117,12 +124,13 @@ class Register extends Component {
 
   /**
    * Delete a user from the DB
+   * usersIds is filled within the JSX Table.
    * @param index - The row of the table that we want to delete.
    */
   deleteUser(index) {
-    firebase.database().ref('/bridge/' + usersIds[index]).remove();
-    firebase.database().ref('/users/' + usersIds[index]).remove();
-    firebase.database().ref('/users-data/' + this.props.userId + '/' + usersIds[index]).remove();
+    firebase.database().ref(CONSTANTS.REFERENCE3 + usersIds[index]).remove();
+    firebase.database().ref(CONSTANTS.REFERENCE2 + usersIds[index]).remove();
+    firebase.database().ref(CONSTANTS.REFERENCE1 + this.props.userId + '/' + usersIds[index]).remove();
   }
 
 

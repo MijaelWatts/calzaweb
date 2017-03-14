@@ -94,7 +94,8 @@
 }
 
 .App-fitcontent {
-  width: -moz-fit-content !important;
+  width: -moz-max-content !important; 
+  width: -webkit-max-content !important; 
 }
 
 .App-bordercolor-red {

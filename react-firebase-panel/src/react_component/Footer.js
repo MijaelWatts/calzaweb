@@ -4,7 +4,8 @@ import VERSIONS from '../config_files/versions.json';
 import logo_calzaweb_mini from '../img/logo-calzaweb-mini.png'
 
 /**
- *
+ * Display the latest version in which the app is
+ * When clicking on it; details of all the versions is shown.
  */
 function FooterInfo(props) {
 	return(
@@ -17,7 +18,7 @@ function FooterInfo(props) {
 }
 
 /**
- *
+ * Display in the DOM specific info for each version built
  */
 function Panel(props) {
 	const description = props.panel.description;
@@ -43,7 +44,10 @@ function Panel(props) {
 }
 
 /**
- *
+ * Display in the DOM all the information from each version that was build.
+ * Uses the info of the app from VERSIONS constant.
+ * All the info is mapped throught the map() function and send to a JSX.
+ * 	Once gotten, the JSX response is hold into versions constant and put as an expression inside our return.
  */
 function Version() {
 	const version = VERSIONS;
@@ -53,7 +57,7 @@ function Version() {
 	);
 
 	return(
-		<div className="animated fadeIn">
+		<div className="animated fadeInLeft">
 			<h2> { MESSAGE_CONSTANTS.VERSIONS_INFO } </h2>
 			<hr />
 			{ versions }
@@ -62,7 +66,7 @@ function Version() {
 }
 
 /**
- *
+ * Based on the property gotten, it will hide or show the versions that the app holds.
  */
 function HideOrShowVersion(props) {
 	if(props.flag) {
@@ -83,6 +87,9 @@ class Footer extends Component {
 		this.toggleFlag = this.toggleFlag.bind(this);
 	}
 
+	/**
+	 * This state is in control of showing or hiding details of the versions of the app. 
+	 */
 	toggleFlag() {
 		this.setState({
 			flag : !this.state.flag
@@ -90,13 +97,13 @@ class Footer extends Component {
 	}
 
 	render() {
-	    return(
-				<div>
-					<FooterInfo toggleFlag={ this.toggleFlag } />
-					<HideOrShowVersion flag={ this.state.flag } />
-				</div>
-	    );
-  	}
+    return(
+			<div>
+				<FooterInfo toggleFlag={ this.toggleFlag } />
+				<HideOrShowVersion flag={ this.state.flag } />
+			</div>
+    );
+	}
 }
 
 export default Footer;
