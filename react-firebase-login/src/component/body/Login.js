@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import * as firebase from 'firebase';
 import cookie from 'react-cookie';
-import CONSTANTS from '../config_files/constants.json'
+import CONSTANTS from '../../config/constants.json'
 
-firebase.initializeApp(CONSTANTS.FIREBASE);
+// firebase.initializeApp(CONSTANTS.FIREBASE);
 
 /**
  * Input for typing the user email
@@ -211,15 +211,20 @@ class Login extends Component {
   handleAuthentication(props) {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
+        const userId = firebase.auth().currentUser.uid;
+        
         this.setMessageToDisplay(CONSTANTS.SUCCESS);
-        this.whereToRedirect();
+
+        cookie.save(CONSTANTS.UID, userId, { path: '/', maxAge: CONSTANTS.MAX_AGE });
+        // this.whereToRedirect();
+        this.props.setComponentToDisplay('panel');
       }
     });
   }
 
   /**
    * Create a cookie and redirect to a specific place.
-   */
+   
   whereToRedirect() {
     const userId = firebase.auth().currentUser.uid;
 
@@ -228,6 +233,7 @@ class Login extends Component {
       window.location.href = snapshot.val().redirect_to;
     });
   }
+  */
 
   /**
    * Helps to show the messages in the UI.
