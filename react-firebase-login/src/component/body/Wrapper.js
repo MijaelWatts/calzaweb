@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import cookie from 'react-cookie';
+import Header from '../Header';
 import Login from './Login';
 import Panel from './Panel';
 
@@ -11,7 +12,7 @@ import Panel from './Panel';
 function ComponentToLoad (props) {
 	if ( props.displayComponent === 'panel' ) {
 		let userId = cookie.load('userId');
-		
+
 		return (<Panel userId={userId} />);
 	} else {
 		return (<Login setComponentToDisplay={ props.setComponentToDisplay } />);
@@ -48,9 +49,13 @@ class Wrapper extends Component {
 
 	render () {
 		return (
-			<ComponentToLoad 
-				setComponentToDisplay={ this.setComponentToDisplay.bind(this) } 
-				displayComponent={ this.state.displayComponent } />
+			<div>
+	      <Header />
+
+				<ComponentToLoad 
+					setComponentToDisplay={ this.setComponentToDisplay.bind(this) } 
+					displayComponent={ this.state.displayComponent } />
+			</div>
 		);
 	}
 }

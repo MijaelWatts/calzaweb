@@ -6,12 +6,10 @@ import CONSTANTS from '../config/constants.json'
 import '../css/App.css';
 import logo_calzaweb_blanco_mini from '../img/logo-calzaweb-blanco-mini.png';
 
-const UID = cookie.load('userId');
-
 function Nav1 () {
   let panelMsg = MESSAGE_CONSTANTS.LOGIN;
 
-  if (UID) {
+  if ( false ) {
     panelMsg = MESSAGE_CONSTANTS.REGISTER;
   }
 
@@ -27,13 +25,13 @@ function Nav1 () {
 }
 
 function Nav2 () {
-  if (UID) {
+  if (false) {
     return (
     <ul className="nav navbar-nav navbar-right">
       <li className="dropdown">
-        <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> {this.state.username} <span className="caret"></span></a>
+        <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> userNameHere <span className="caret"></span></a>
         <ul className="dropdown-menu">
-          <li><a href="#" onClick={ this.signOut }> { MESSAGE_CONSTANTS.CLOSE_SESSION } </a></li>
+          <li><a href="#" onClick=""> { MESSAGE_CONSTANTS.CLOSE_SESSION } </a></li>
         </ul>
       </li>
     </ul>
@@ -48,6 +46,7 @@ class Header extends Component {
     super(props);
     
     this.state = {
+      cookie   : null,
       username : ""
     };
 
