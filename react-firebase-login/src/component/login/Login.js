@@ -2,8 +2,7 @@ import React, {Component} from 'react';
 import * as firebase from 'firebase';
 import cookie from 'react-cookie';
 import CONSTANTS from '../../config/constants.json'
-
-// firebase.initializeApp(CONSTANTS.FIREBASE);
+import MESSAGE_CONSTANTS from '../../config/message_constants.json'
 
 /**
  * Input for typing the user email
@@ -94,7 +93,6 @@ function ShowSuccessMessage() {
 }
 
 class Login extends Component {
-
   /**
    * By default any session is killed once the login is rendered.
    */
@@ -103,13 +101,12 @@ class Login extends Component {
 
     this.state = {
       user             : null,
-      pass             : null,    
+      pass             : null,
       disableButton    : true,
       messageToDisplay : null,
       animationToSet   : null
     };
 
-    this.killSession          = this.killSession.bind(this);
     this.validateAndSetUser   = this.validateAndSetUser.bind(this);
     this.validateAndSetPass   = this.validateAndSetPass.bind(this);
     this.enableDisableButon   = this.enableDisableButon.bind(this);
@@ -117,14 +114,12 @@ class Login extends Component {
 		this.handleSignIn         = this.handleSignIn.bind(this);
     this.handleAuthentication = this.handleAuthentication.bind(this);
     this.setAnimation         = this.setAnimation.bind(this);
-
-    this.killSession(); // The firebase authentication is killed.
   }
 
   /**
    * Killing firebase authentication, and cookie.
    */
-  killSession(){
+  componentWillMount (){
     cookie.remove(CONSTANTS.UID, { path: '/' });
     firebase.auth().signOut();
   }
@@ -137,9 +132,9 @@ class Login extends Component {
     let usuario = null;
 
     // eslint-disable-next-line
-    const regexp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    let isTheEmailValid = regexp.test(e.target.value);
-    
+    const REG_EXP = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    let isTheEmailValid = REG_EXP.test(e.target.value);
+
     isTheEmailValid ? (usuario = e.target.value) : (usuario = null);
 
     this.setState({
@@ -177,7 +172,7 @@ class Login extends Component {
       if(this.state.user && this.state.pass) {
         isDisabled = false;
       }
-      
+
       this.setState({
         disableButton: isDisabled
       });
@@ -190,13 +185,13 @@ class Login extends Component {
    * Call by default handleAuthentication method.
    */
   handleSignIn() {
-    const user = this.state.user;
-    const pass = this.state.pass;
+    const USER = this.state.user;
+    const PASS = this.state.pass;
 
-    if(user && pass) {
-      firebase.auth().signInWithEmailAndPassword(user, pass).catch((error) => {
+    if(USER && PASS) {
+      firebase.auth().signInWithEmailAndPassword(USER, PASS).catch((error) => {
         this.setMessageToDisplay(CONSTANTS.ERROR);
-      });  
+      });
     }
 
     this.handleAuthentication();
@@ -206,25 +201,27 @@ class Login extends Component {
    * Checks if the authentication state of the user changed.
    *  If it did, means the user logged in successfully.
    *  If it did, a success message is displayed automatically.
-   *  If it did, whereToRedirect method is displayed.
+   *  If it did, setWrapperToDisplay method from Wrapper.js is displayed.
    */
   handleAuthentication(props) {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        const userId = firebase.auth().currentUser.uid;
-        
+        const USER_ID = firebase.auth().currentUser.uid;
+
         this.setMessageToDisplay(CONSTANTS.SUCCESS);
 
-        cookie.save(CONSTANTS.UID, userId, { path: '/', maxAge: CONSTANTS.MAX_AGE });
-        // this.whereToRedirect();
-        this.props.setComponentToDisplay('panel');
+        cookie.save(CONSTANTS.UID, USER_ID, { path: '/', maxAge: CONSTANTS.MAX_AGE });
+
+        setTimeout( () => { // This timer is just for allowing the success message to appear.
+          this.props.setWrapperToDisplay(MESSAGE_CONSTANTS.PANEL);
+        }, 2500);
       }
     });
   }
 
   /**
    * Create a cookie and redirect to a specific place.
-   
+
   whereToRedirect() {
     const userId = firebase.auth().currentUser.uid;
 
@@ -251,7 +248,7 @@ class Login extends Component {
     setTimeout( () => {
       this.setState({
         messageToDisplay : message
-      }); 
+      });
     }, 500)
   }
 

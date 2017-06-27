@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import logo_calzaweb_mini from '../img/logo-calzaweb-mini.png'
+import logo_calzaweb_mini from '../../img/logo-calzaweb-mini.png'
 
-class Footer extends Component {
+class FooterLogin extends Component {
 	render() {
 	  return(
 			<div className="App-textalign-center App-margintop-p1">
@@ -11,4 +11,4 @@ class Footer extends Component {
   }
 }
 
-export default Footer;
+export default FooterLogin;
