@@ -1,0 +1,16 @@
+{
+  "LOGIN"            : "Login",
+  "PANEL"            : "Panel",
+  "CLOSE_SESSION"    : "Cerrar Sesión",
+  "ADD_USER"	       : "Agregar Usuario",
+  "TH_01" 		       : "Usuario",
+  "TH_02" 		       : "Encargado",
+  "TH_03" 		       : "Ciudad",
+  "TH_04" 		       : "Estado",
+  "USERS_REGISTERED" : "Usuarios Registrados.",
+  "EDIT"             : "Editar",
+  "DELETE"           : "Borrar",
+  "PWD"              : "Password",
+  "VERSION"          : "Versión",
+  "VERSIONS_INFO"    : "Información de Versiones"
+}
