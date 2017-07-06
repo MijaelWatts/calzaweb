@@ -1,11 +1,11 @@
 {
-  "UID"        : "userId",
-  "ERROR"      : "errorMessage",
-  "SUCCESS"    : "successMessage",
-  "BRIDGE"     : "/bridge/",
-  "MAX_AGE"    : 3600,
-  "ANIMATION1" : "fadeIn",
-  "ANIMATION2" : "fadeOut",
+  "UID"          : "userId",
+  "ERROR"        : "errorMessage",
+  "SUCCESS"      : "successMessage",
+  "BRIDGE"       : "/bridge/",
+  "MAX_AGE"      : 3600,
+  "ANIMATION1"   : "fadeIn",
+  "ANIMATION2"   : "fadeOut",
   "HREF1"        : "http://localhost:3000/",
   "REFERENCE1"   : "/users-data/",
   "REFERENCE2"   : "/users/",
@@ -19,7 +19,7 @@
   "ANIMATION02"  : "fadeOut",
   "SUCCESS_MSG"  : "successMessage",
   "ERROR_MSG"    : "errorMessage",
-  "FIREBASE"   : {
+  "FIREBASE"     : {
   	"apiKey"            : "AIzaSyCK-nntr0BQvvi85x7hDKdq5_1QNPIP7dc",
   	"authDomain"        : "calzaweb-11d59.firebaseapp.com",
   	"databaseURL"       : "https://calzaweb-11d59.firebaseio.com",
