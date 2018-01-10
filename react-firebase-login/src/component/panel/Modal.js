@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import * as firebase from 'firebase';
-import MESSAGE_CONSTANTS from '../config_files/message_constants.json';
-import CONSTANTS from '../config_files/constants.json';
+import MESSAGE_CONSTANTS from '../../config/message_constants.json';
+import CONSTANTS from '../../config/constants.json';
 
 /**
  * Based on the props that is true, a message will be displayed, or not.

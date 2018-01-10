@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import * as firebase from 'firebase';
 import Modal from './Modal';
-import MESSAGE_CONSTANTS from '../config_files/message_constants.json';
-import CONSTANTS from '../config_files/constants.json';
+import MESSAGE_CONSTANTS from '../../config/message_constants.json';
+import CONSTANTS from '../../config/constants.json';
 
 let usersIds = []; // This is set general for our method deleteUser within the class can work.
 
@@ -64,7 +64,7 @@ function Table(props) {
       <td>{ obj.state }</td>
       <td>
         <button type="button" className="btn btn-danger" onClick={ () => { props.deleteUser(index) } }>
-          <span className="glyphicon glyphicon-trash"></span> 
+          <span className="glyphicon glyphicon-trash"></span>
         </button>
       </td>
     </tr>
@@ -97,25 +97,22 @@ function Table(props) {
   );
 }
 
-class Register extends Component {
-
+class Panel extends Component {
   constructor(props) {
     super(props);
 
     this.state = ({
-      usersData : null,
-      usersId   : null
+      usersData : null
     });
 
-    this.getUsersData(props.userId);
     this.deleteUser = this.deleteUser.bind(this);
   }
 
   /**
    * Gets users to display in the table
    */
-  getUsersData(userId) {
-    firebase.database().ref(CONSTANTS.REFERENCE1 + userId).on('value', (snapshot) => {
+  componentWillMount () {
+    firebase.database().ref(CONSTANTS.REFERENCE1 + this.props.userId).on('value', (snapshot) => {
       this.setState({
         usersData : snapshot.val(),
       });
@@ -143,7 +140,6 @@ class Register extends Component {
       </div>
     );
   }
-
 }
 
-export default Register;
+export default Panel;

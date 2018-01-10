@@ -1,0 +1,29 @@
+{
+  "UID"          : "userId",
+  "ERROR"        : "errorMessage",
+  "SUCCESS"      : "successMessage",
+  "BRIDGE"       : "/bridge/",
+  "MAX_AGE"      : 3600,
+  "ANIMATION1"   : "fadeIn",
+  "ANIMATION2"   : "fadeOut",
+  "HREF1"        : "http://localhost:3000/",
+  "REFERENCE1"   : "/users-data/",
+  "REFERENCE2"   : "/users/",
+  "REFERENCE3"   : "/bridge/",
+  "REDIRECT01"   : "http://localhost:3001",
+  "REDIRECT02"   : "https://developer.mozilla.org/en-US/docs/Tools/Storage_Inspector",
+  "FORM_CONTROL" : "form-control",
+  "APP_CORRECT"  : " App-bordercolor-lightseagreen",
+  "APP_WRONG"    : " App-bordercolor-red",
+  "ANIMATION01"  : "fadeIn",
+  "ANIMATION02"  : "fadeOut",
+  "SUCCESS_MSG"  : "successMessage",
+  "ERROR_MSG"    : "errorMessage",
+  "FIREBASE"     : {
+  	"apiKey"            : "AIzaSyCK-nntr0BQvvi85x7hDKdq5_1QNPIP7dc",
+  	"authDomain"        : "calzaweb-11d59.firebaseapp.com",
+  	"databaseURL"       : "https://calzaweb-11d59.firebaseio.com",
+  	"storageBucket"     : "calzaweb-11d59.appspot.com",
+  	"messagingSenderId" : "660940429104"
+  }
+}

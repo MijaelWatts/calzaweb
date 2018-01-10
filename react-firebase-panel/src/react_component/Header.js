@@ -2,52 +2,42 @@ import React, { Component } from 'react';
 import * as firebase from 'firebase';
 import cookie from 'react-cookie';
 import MESSAGE_CONSTANTS from '../config_files/message_constants.json';
+import CONSTANTS from '../config_files/constants.json'
 import '../css/App.css';
 import logo_calzaweb_blanco_mini from '../img/logo-calzaweb-blanco-mini.png';
 
-// Your firebase web setup here
-const config = {
-  apiKey: "AIzaSyB3K29Aj7ySitbNmctTnoXq0z03ku6ssqw",
-  authDomain: "login-project-35552.firebaseapp.com",
-  databaseURL: "https://login-project-35552.firebaseio.com",
-  storageBucket: "login-project-35552.appspot.com",
-  messagingSenderId: "338943979739"
-};
-firebase.initializeApp(config);
+firebase.initializeApp(CONSTANTS.FIREBASE);
 
 class Header extends Component {
   constructor(props) {
     super(props);
     
     this.state = {
-      username      : "",
-      sessionMessage: ""
+      username : ""
     };
 
     this.signOut     = this.signOut.bind(this);
     this.getUserName = this.getUserName.bind(this);
 
-    this.getUserName(props.userId);
+    this.getUserName();
   }
 
   /**
-   *
+   * When signing out, remove the cookie, kill the authentication, and redirect the user.
    */
   signOut() {
-    cookie.remove('userId', { path: '/' });
+    cookie.remove(CONSTANTS.UID, { path: '/' });
     firebase.auth().signOut();
-
-    window.location.href = "http://localhost:3000/";
+    window.location.href = CONSTANTS.HREF1;
   }
 
   /**
-   *
+   * Get the user name from the DB for displaying it.
    */
-  getUserName(userId) {
-    firebase.database().ref('/users-data/').once('value').then( (snapshot) => {
+  getUserName() {
+    firebase.database().ref(CONSTANTS.REFERENCE1).once('value').then( (snapshot) => {
       this.setState ({
-        username      : snapshot.val().name,
-        sessionMessage: MESSAGE_CONSTANTS.CLOSE_SESSION
+        username       : snapshot.val().name
       });
     });
   }
@@ -74,14 +64,16 @@ class Header extends Component {
             <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul className="nav navbar-nav">
                 <li className="active">
-                  <a href="#"> {MESSAGE_CONSTANTS.REGISTER} <span className="sr-only">(current)</span></a>
+                  <a href="#"> {MESSAGE_CONSTANTS.REGISTER} 
+                    <span className="sr-only">(current)</span>
+                  </a>
                 </li>
               </ul>
               <ul className="nav navbar-nav navbar-right">
                 <li className="dropdown">
                   <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> {this.state.username} <span className="caret"></span></a>
                   <ul className="dropdown-menu">
-                    <li><a href="#" onClick={ this.signOut }> {this.state.sessionMessage} </a></li>
+                    <li><a href="#" onClick={ this.signOut }> { MESSAGE_CONSTANTS.CLOSE_SESSION } </a></li>
                   </ul>
                 </li>
               </ul>

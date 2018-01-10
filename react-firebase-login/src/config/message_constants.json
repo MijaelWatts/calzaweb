@@ -1,5 +1,6 @@
 {
-  "REGISTER"         : "Registro",
+  "LOGIN"            : "Login",
+  "PANEL"            : "Panel",
   "CLOSE_SESSION"    : "Cerrar Sesión",
   "ADD_USER"	       : "Agregar Usuario",
   "TH_01" 		       : "Usuario",

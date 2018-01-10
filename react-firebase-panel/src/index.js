@@ -9,9 +9,10 @@ import Footer from './react_component/Footer';
 // import 'bootstrap/dist/js/bootstrap.js';
 import 'bootstrap/dist/css/bootstrap.css';
 import './css/index.css';
+import CONSTANTS from './config_files/constants.json'
 
 function WrapComponents() {
-	let userId = cookie.load('userId');
+	let userId = cookie.load(CONSTANTS.UID);
 
 	if(userId) {
 		return(
@@ -22,7 +23,7 @@ function WrapComponents() {
 	    </div>
 	  );
 	} else {
-		window.location.href = "http://localhost:3000/";
+		window.location.href = CONSTANTS.HREF1;
 		return(null);
 	}
 }
