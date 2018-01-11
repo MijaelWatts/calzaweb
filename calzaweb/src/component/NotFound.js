@@ -10,7 +10,7 @@ function OnlyChrome () {
 			<img src={ image } alt="chrome" />
       <br /><br />
       <p className="App-intro">
-        Este sitio funciona preferentemente con el explorador de Google Chrome.
+        Este sitio funciona unicamente con el explorador de Google Chrome.
       </p>
       <p className="App-intro">
         <a href="https://www.google.es/chrome/browser/desktop/index.html"> Descargar Google Chrome </a>
