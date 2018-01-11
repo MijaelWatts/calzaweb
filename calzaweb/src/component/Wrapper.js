@@ -10,9 +10,9 @@ import PanelWrapper from './panel/WrapperPanel';
 function WrapperToLoad (props) {
 	// TODO: set another option for regular users to be redirected to the catalog.
 	if ( props.displayWrapper === 'panel' ) {
-    return (<PanelWrapper />);
+    	return (<PanelWrapper />);
 	} else {
-    return (<LoginWrapper setWrapperToDisplay={ props.setWrapperToDisplay }/>);
+    	return (<LoginWrapper setWrapperToDisplay={ props.setWrapperToDisplay }/>);
 	}
 }
 
