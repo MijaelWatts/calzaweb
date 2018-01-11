@@ -1,0 +1,17 @@
+{
+    "bridge" : {
+      "ULRpuoLntGRq2DTdKf2n5VNVid02" : {
+        "redirect_to" : "http://calzaweb.com.mx/brdg/"
+      }
+    },
+    "users" : {
+      "ULRpuoLntGRq2DTdKf2n5VNVid02" : {
+        "redirect_to" : "http://calzaweb.com.mx/ctrler/"
+      }
+    },
+    "users-data" : {
+      "email" : "test@test.com",
+      "name" : "Juan Doe"
+    }
+  }
+  
