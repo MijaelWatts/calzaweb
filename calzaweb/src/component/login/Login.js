@@ -194,6 +194,8 @@ class Login extends Component {
    *  If it did, means the user logged in successfully.
    *  If it did, a success message is displayed automatically.
    *  If it did, setWrapperToDisplay method from Wrapper.js triggers the Panel view.
+   
+   * TODO: Handle redirect for users that are not admin
    */
   handleAuthentication(props) {
     firebase.auth().onAuthStateChanged((user) => {
