@@ -7,16 +7,19 @@ import FooterLogin from './FooterLogin';
 import CONSTANTS from '../../config/constants.json';
 
 class WrapperLogin extends Component {
+	/**
+	 * Killing firebase authentication, and cookie.
+	 */
 	componentWillMount () {
 		cookie.remove(CONSTANTS.UID, { path: '/' });
-    firebase.auth().signOut();
+    	firebase.auth().signOut();
 	}
 
 
 	render () {
 		return (
 			<div>
-	      <HeaderLogin />
+	      		<HeaderLogin />
 				<Login setWrapperToDisplay={ this.props.setWrapperToDisplay }/>
 				<FooterLogin />
 			</div>

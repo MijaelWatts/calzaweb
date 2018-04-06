@@ -117,14 +117,6 @@ class Login extends Component {
   }
 
   /**
-   * Killing firebase authentication, and cookie.
-   */
-  componentWillMount (){
-    cookie.remove(CONSTANTS.UID, { path: '/' });
-    firebase.auth().signOut();
-  }
-
-  /**
    * User must be a valid email address.
    * Calls by default enableDisableButton() and setMessageToDisplay(null).
    */
@@ -201,7 +193,9 @@ class Login extends Component {
    * Checks if the authentication state of the user changed.
    *  If it did, means the user logged in successfully.
    *  If it did, a success message is displayed automatically.
-   *  If it did, setWrapperToDisplay method from Wrapper.js is displayed.
+   *  If it did, setWrapperToDisplay method from Wrapper.js triggers the Panel view.
+   
+   * TODO: Handle redirect for users that are not admin
    */
   handleAuthentication(props) {
     firebase.auth().onAuthStateChanged((user) => {
@@ -218,19 +212,6 @@ class Login extends Component {
       }
     });
   }
-
-  /**
-   * Create a cookie and redirect to a specific place.
-
-  whereToRedirect() {
-    const userId = firebase.auth().currentUser.uid;
-
-    firebase.database().ref(CONSTANTS.BRIDGE + userId).once('value').then((snapshot) => {
-      cookie.save(CONSTANTS.UID, userId, { path: '/', maxAge: CONSTANTS.MAX_AGE });
-      window.location.href = snapshot.val().redirect_to;
-    });
-  }
-  */
 
   /**
    * Helps to show the messages in the UI.

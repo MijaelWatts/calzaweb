@@ -48,8 +48,7 @@ class HeaderPanel extends Component {
             <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul className="nav navbar-nav navbar-right">
                 <li className="active">
-                  <a href="#"> Bienvenido { this.state.userName }
-                  </a>
+                  <a> Bienvenido { this.state.userName } </a>
                 </li>
               </ul>
             </div>

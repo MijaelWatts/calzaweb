@@ -235,13 +235,13 @@ class Modal extends Component {
         if(this.state.messageToDisplay === null) {
           const currentUser = firebase.auth().currentUser.uid;
 
-          firebase.database().ref(CONSTANTS.REFERENCE3 + currentUser).set({
-            redirect_to : CONSTANTS.REDIRECT01
-          });
+          // firebase.database().ref(CONSTANTS.REFERENCE3 + currentUser).set({
+          //   redirect_to : CONSTANTS.REDIRECT01
+          // });
 
-          firebase.database().ref(CONSTANTS.REFERENCE2 + currentUser).set({
-            redirect_to : CONSTANTS.REDIRECT02
-          });
+          // firebase.database().ref(CONSTANTS.REFERENCE2 + currentUser).set({
+          //   redirect_to : CONSTANTS.REDIRECT02
+          // });
 
           firebase.database().ref(CONSTANTS.REFERENCE1 + uid + '/' + currentUser).set({
             email    : email,
